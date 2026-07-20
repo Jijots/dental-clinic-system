@@ -38,7 +38,7 @@ export function AdminSidebar({
 
   return (
     <aside
-      className={`sticky top-0 flex h-screen shrink-0 flex-col border-r border-white/10 bg-black text-white transition-[width] duration-200 print:hidden ${
+      className={`sticky top-0 flex h-screen shrink-0 flex-col border-r border-white/10 bg-brand-700 text-white transition-[width] duration-200 print:hidden ${
         expanded ? "w-64" : "w-16"
       }`}
     >
@@ -70,7 +70,7 @@ export function AdminSidebar({
               href={item.href}
               title={item.label}
               className={`flex items-center gap-3 rounded-md px-3 py-2 transition-colors ${
-                active ? "bg-brand-700 text-white" : "text-white/80 hover:bg-white/10 hover:text-white"
+                active ? "bg-cream text-brand-900" : "text-white/80 hover:bg-white/10 hover:text-white"
               } ${expanded ? "" : "justify-center"}`}
             >
               <Icon size={18} className="shrink-0" />
