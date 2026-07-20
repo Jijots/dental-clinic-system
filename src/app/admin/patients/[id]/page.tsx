@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import { Odontogram } from "./odontogram";
 import { AddTreatmentForm } from "./add-treatment-form";
@@ -70,7 +71,15 @@ export default async function PatientDetailPage({
       </div>
 
       <section>
-        <h2 className="text-lg font-semibold text-gray-900">Treatment History / E-SOA</h2>
+        <div className="flex items-center justify-between">
+          <h2 className="text-lg font-semibold text-gray-900">Treatment History / E-SOA</h2>
+          <Link
+            href={`/admin/patients/${patient.id}/soa`}
+            className="rounded-md border border-emerald-700 px-3 py-1.5 text-sm font-medium text-emerald-700 hover:bg-emerald-50"
+          >
+            View / Print Statement of Account
+          </Link>
+        </div>
 
         <AddTreatmentForm
           patientId={patient.id}

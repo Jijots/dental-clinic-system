@@ -18,7 +18,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
 
   return (
     <div className="flex min-h-screen">
-      <aside className="w-64 shrink-0 border-r bg-slate-900 text-slate-100">
+      <aside className="w-64 shrink-0 border-r bg-slate-900 text-slate-100 print:hidden">
         <div className="border-b border-slate-800 px-6 py-5">
           <p className="text-sm font-semibold">Psalm 23 Dental Care</p>
           <p className="text-xs text-slate-400">Admin System</p>
@@ -46,7 +46,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
           </form>
         </div>
       </aside>
-      <main className="flex-1 bg-slate-50 p-8">{children}</main>
+      <main className="flex-1 bg-slate-50 p-8 print:bg-white print:p-0">{children}</main>
     </div>
   );
 }

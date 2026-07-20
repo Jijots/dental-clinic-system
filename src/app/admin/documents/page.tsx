@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import { generateDocument } from "@/lib/actions/documents";
 
@@ -64,6 +65,7 @@ export default async function DocumentsPage() {
               <th className="px-4 py-3">Patient</th>
               <th className="px-4 py-3">Dentist</th>
               <th className="px-4 py-3">Type</th>
+              <th className="px-4 py-3" />
             </tr>
           </thead>
           <tbody className="divide-y">
@@ -75,11 +77,16 @@ export default async function DocumentsPage() {
                 </td>
                 <td className="px-4 py-3">{d.dentist.name}</td>
                 <td className="px-4 py-3">{d.type.replace("_", " ")}</td>
+                <td className="px-4 py-3 text-right">
+                  <Link href={`/admin/documents/${d.id}`} className="text-emerald-700 hover:underline">
+                    View / Print →
+                  </Link>
+                </td>
               </tr>
             ))}
             {documents.length === 0 && (
               <tr>
-                <td colSpan={4} className="px-4 py-8 text-center text-gray-400">
+                <td colSpan={5} className="px-4 py-8 text-center text-gray-400">
                   No documents generated yet.
                 </td>
               </tr>
