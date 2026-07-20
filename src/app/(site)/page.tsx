@@ -10,6 +10,11 @@ import {
   ChevronUp,
   Building2,
   Calendar,
+  Search,
+  CalendarDays,
+  ClipboardCheck,
+  Quote,
+  Star,
 } from "lucide-react";
 import { prisma } from "@/lib/prisma";
 
@@ -49,6 +54,29 @@ const SERVICES = [
   },
 ];
 
+const STEPS = [
+  {
+    icon: Search,
+    title: "Choose a Branch & Service",
+    body: "Pick the location and treatment that works best for you.",
+  },
+  {
+    icon: CalendarDays,
+    title: "Pick a Date & Time",
+    body: "Select an open slot — we only show times that are actually available.",
+  },
+  {
+    icon: ClipboardCheck,
+    title: "We Confirm Your Booking",
+    body: "Our team reviews your request and confirms your appointment.",
+  },
+  {
+    icon: Smile,
+    title: "Visit Us",
+    body: "Show up on the day and let us take care of the rest.",
+  },
+];
+
 function IconBadge({ icon: Icon }: { icon: typeof Heart }) {
   return (
     <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-brand-700 text-white">
@@ -57,10 +85,26 @@ function IconBadge({ icon: Icon }: { icon: typeof Heart }) {
   );
 }
 
+function initials(name: string) {
+  return name
+    .replace(/^Dr\.?\s*/i, "")
+    .split(" ")
+    .filter(Boolean)
+    .map((w) => w[0])
+    .slice(0, 2)
+    .join("")
+    .toUpperCase();
+}
+
 export default async function HomePage() {
-  const [branches, hmoProviders] = await Promise.all([
+  const [branches, hmoProviders, dentists] = await Promise.all([
     prisma.branch.findMany({ orderBy: { name: "asc" } }),
     prisma.hmoProvider.findMany({ orderBy: { name: "asc" } }),
+    prisma.dentist.findMany({
+      where: { active: true },
+      include: { branch: true },
+      orderBy: { name: "asc" },
+    }),
   ]);
 
   return (
@@ -159,6 +203,67 @@ export default async function HomePage() {
             ))}
           </div>
         </div>
+      </section>
+
+      {/* How It Works */}
+      <section className="bg-cream px-6 py-20">
+        <div className="mx-auto max-w-6xl">
+          <h2 className="text-center font-serif text-3xl font-medium text-brand-900">
+            How It Works
+          </h2>
+          <div className="relative mt-14 grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
+            <div className="absolute top-6 left-0 right-0 hidden h-px bg-brand-100 lg:block" />
+            {STEPS.map((s, i) => (
+              <div key={s.title} className="relative text-center">
+                <div className="relative z-10 mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-brand-700 text-sm font-bold text-white">
+                  {i + 1}
+                </div>
+                <s.icon className="mx-auto mt-4 text-brand-700" size={22} />
+                <h3 className="mt-3 font-serif text-lg font-medium text-brand-900">{s.title}</h3>
+                <p className="mt-1 text-sm text-brand-900/70">{s.body}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Meet the Team */}
+      {dentists.length > 0 && (
+        <section className="bg-white px-6 py-20">
+          <div className="mx-auto max-w-5xl">
+            <h2 className="text-center font-serif text-3xl font-medium text-brand-900">
+              Meet Our Dentists
+            </h2>
+            <div className="mt-10 grid gap-8 sm:grid-cols-3">
+              {dentists.map((d) => (
+                <div key={d.id} className="rounded-2xl bg-tan p-8 text-center">
+                  <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-brand-700 text-xl font-bold text-white">
+                    {initials(d.name)}
+                  </div>
+                  <h3 className="mt-4 font-serif text-lg font-medium text-brand-900">{d.name}</h3>
+                  <p className="mt-1 text-sm text-brand-900/70">
+                    {d.branch?.name ?? "General Dentist"}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* Testimonial */}
+      <section className="bg-brand-900 px-6 py-16 text-center">
+        <Quote className="mx-auto text-brand-100" size={32} />
+        <p className="mx-auto mt-4 max-w-2xl font-serif text-2xl italic text-cream">
+          The best dental experience I&apos;ve had — the staff explained everything clearly and
+          made me feel completely at ease.
+        </p>
+        <div className="mt-4 flex items-center justify-center gap-1 text-brand-100">
+          {Array.from({ length: 5 }).map((_, i) => (
+            <Star key={i} size={16} fill="currentColor" />
+          ))}
+        </div>
+        <p className="mt-2 text-sm uppercase tracking-wide text-brand-100/70">Happy Patient</p>
       </section>
 
       {/* HMOs */}
