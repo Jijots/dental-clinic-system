@@ -42,7 +42,7 @@ export default async function StatementOfAccountPage({
   const today = new Date().toISOString().slice(0, 10);
 
   return (
-    <div className="mx-auto max-w-3xl bg-white p-8 print:p-0 print:max-w-full">
+    <div className="mx-auto max-w-3xl bg-white p-8 print:w-full print:max-w-full print:p-0 print:text-xs">
       <div className="mb-6 flex justify-end print:hidden">
         <PrintButton label="Print Statement of Account" />
       </div>
@@ -80,23 +80,23 @@ export default async function StatementOfAccountPage({
       <table className="mt-6 w-full border-collapse text-sm">
         <thead>
           <tr className="border-b-2 border-gray-800 text-left">
-            <th className="py-2 pr-2">Date</th>
-            <th className="py-2 pr-2">Dentist</th>
-            <th className="py-2 pr-2">Treatment</th>
-            <th className="py-2 pr-2">Diagnosis</th>
-            <th className="py-2 pr-2 text-right">Fee</th>
-            <th className="py-2 pr-2">HMO</th>
+            <th className="py-2 pr-2 print:py-1 print:pr-1">Date</th>
+            <th className="py-2 pr-2 print:py-1 print:pr-1">Dentist</th>
+            <th className="py-2 pr-2 print:py-1 print:pr-1">Treatment</th>
+            <th className="py-2 pr-2 print:py-1 print:pr-1">Diagnosis</th>
+            <th className="py-2 pr-2 print:py-1 print:pr-1 text-right">Fee</th>
+            <th className="py-2 pr-2 print:py-1 print:pr-1">HMO</th>
           </tr>
         </thead>
         <tbody>
           {patient.treatmentRecords.map((t) => (
             <tr key={t.id} className="border-b border-gray-200">
-              <td className="py-2 pr-2">{t.date.toISOString().slice(0, 10)}</td>
-              <td className="py-2 pr-2">{t.dentist.name}</td>
-              <td className="py-2 pr-2">{t.procedure}</td>
-              <td className="py-2 pr-2">{t.diagnosis ?? "-"}</td>
-              <td className="py-2 pr-2 text-right">₱{Number(t.fee).toLocaleString()}</td>
-              <td className="py-2 pr-2">{t.hmoCovered ? t.hmoProvider?.name ?? "Yes" : "-"}</td>
+              <td className="py-2 pr-2 print:py-1 print:pr-1">{t.date.toISOString().slice(0, 10)}</td>
+              <td className="py-2 pr-2 print:py-1 print:pr-1">{t.dentist.name}</td>
+              <td className="py-2 pr-2 print:py-1 print:pr-1">{t.procedure}</td>
+              <td className="py-2 pr-2 print:py-1 print:pr-1">{t.diagnosis ?? "-"}</td>
+              <td className="py-2 pr-2 print:py-1 print:pr-1 text-right">₱{Number(t.fee).toLocaleString()}</td>
+              <td className="py-2 pr-2 print:py-1 print:pr-1">{t.hmoCovered ? t.hmoProvider?.name ?? "Yes" : "-"}</td>
             </tr>
           ))}
           {patient.treatmentRecords.length === 0 && (
@@ -109,10 +109,10 @@ export default async function StatementOfAccountPage({
         </tbody>
         <tfoot>
           <tr className="border-t-2 border-gray-800 font-semibold">
-            <td colSpan={4} className="py-2 pr-2 text-right">
+            <td colSpan={4} className="py-2 pr-2 print:py-1 print:pr-1 text-right">
               Total
             </td>
-            <td className="py-2 pr-2 text-right">₱{totalFee.toLocaleString()}</td>
+            <td className="py-2 pr-2 print:py-1 print:pr-1 text-right">₱{totalFee.toLocaleString()}</td>
             <td />
           </tr>
         </tfoot>
@@ -122,19 +122,19 @@ export default async function StatementOfAccountPage({
       <table className="mt-2 w-full border-collapse text-sm">
         <thead>
           <tr className="border-b-2 border-gray-800 text-left">
-            <th className="py-2 pr-2">Date</th>
-            <th className="py-2 pr-2">For Treatment</th>
-            <th className="py-2 pr-2">Payment Type</th>
-            <th className="py-2 pr-2 text-right">Amount</th>
+            <th className="py-2 pr-2 print:py-1 print:pr-1">Date</th>
+            <th className="py-2 pr-2 print:py-1 print:pr-1">For Treatment</th>
+            <th className="py-2 pr-2 print:py-1 print:pr-1">Payment Type</th>
+            <th className="py-2 pr-2 print:py-1 print:pr-1 text-right">Amount</th>
           </tr>
         </thead>
         <tbody>
           {payments.map((p) => (
             <tr key={p.id} className="border-b border-gray-200">
-              <td className="py-2 pr-2">{p.paidAt.toISOString().slice(0, 10)}</td>
-              <td className="py-2 pr-2">{p.treatment}</td>
-              <td className="py-2 pr-2">{PAYMENT_LABEL[p.paymentType] ?? p.paymentType}</td>
-              <td className="py-2 pr-2 text-right">₱{Number(p.amount).toLocaleString()}</td>
+              <td className="py-2 pr-2 print:py-1 print:pr-1">{p.paidAt.toISOString().slice(0, 10)}</td>
+              <td className="py-2 pr-2 print:py-1 print:pr-1">{p.treatment}</td>
+              <td className="py-2 pr-2 print:py-1 print:pr-1">{PAYMENT_LABEL[p.paymentType] ?? p.paymentType}</td>
+              <td className="py-2 pr-2 print:py-1 print:pr-1 text-right">₱{Number(p.amount).toLocaleString()}</td>
             </tr>
           ))}
           {payments.length === 0 && (

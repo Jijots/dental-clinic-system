@@ -22,7 +22,7 @@ export default async function DocumentDetailPage({
   if (!doc) notFound();
 
   return (
-    <div className="mx-auto max-w-2xl bg-white p-10 print:p-0">
+    <div className="mx-auto max-w-2xl bg-white p-10 print:max-w-full print:w-full print:p-0 print:text-sm">
       <div className="mb-6 flex justify-end print:hidden">
         <PrintButton />
       </div>
