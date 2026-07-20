@@ -3,6 +3,7 @@ import { prisma } from "@/lib/prisma";
 import { PrintButton } from "@/components/print-button";
 import { PrintWatermark } from "@/components/print-watermark";
 import { calcAge, securityCode } from "@/lib/document-format";
+import { CLINIC_NAME } from "@/lib/site-config";
 
 const PAYMENT_LABEL: Record<string, string> = {
   CASH: "Cash",
@@ -54,7 +55,7 @@ export default async function StatementOfAccountPage({
       </div>
 
       <div className="border-b-2 border-brand-700 pb-4">
-        <h1 className="text-2xl font-bold text-gray-900">Psalm 23 Dental Care</h1>
+        <h1 className="text-2xl font-bold text-gray-900">{CLINIC_NAME}</h1>
         <p className="text-sm text-gray-600">{patient.branch.name}</p>
         <p className="text-sm text-gray-600">{patient.branch.address}</p>
         {patient.branch.phone && <p className="text-sm text-gray-600">{patient.branch.phone}</p>}
@@ -193,8 +194,8 @@ export default async function StatementOfAccountPage({
           I hereby acknowledge that the dentist has explained to me the nature of the dental
           procedure(s), including the potential risks, benefits, and alternative treatment
           options, and that all my concerns have been addressed to my satisfaction. By signing
-          below, I voluntarily consent to the proposed treatment and authorize Psalm 23 Dental
-          Care to proceed accordingly.
+          below, I voluntarily consent to the proposed treatment and authorize {CLINIC_NAME} to
+          proceed accordingly.
         </p>
       </div>
 

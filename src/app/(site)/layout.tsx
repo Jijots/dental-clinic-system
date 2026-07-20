@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { CLINIC_NAME } from "@/lib/site-config";
 
 const NAV_LINKS = [
   { href: "/about", label: "About Us" },
@@ -13,7 +14,7 @@ export default function SiteLayout({ children }: { children: React.ReactNode }) 
       <header className="bg-black">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
           <Link href="/" className="font-serif text-lg font-semibold text-white">
-            Psalm 23 Dental Care
+            {CLINIC_NAME}
           </Link>
           <nav className="flex items-center gap-6 text-sm font-medium text-white/80">
             {NAV_LINKS.map((link) => (
@@ -35,7 +36,7 @@ export default function SiteLayout({ children }: { children: React.ReactNode }) 
       </header>
       <main className="flex-1">{children}</main>
       <footer className="border-t py-8 text-center text-sm text-gray-500">
-        © {new Date().getFullYear()} Psalm 23 Dental Care. All rights reserved.
+        © {new Date().getFullYear()} {CLINIC_NAME}. All rights reserved.
       </footer>
     </div>
   );

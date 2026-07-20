@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter, Playfair_Display } from "next/font/google";
+import { CLINIC_NAME, CLINIC_TAGLINE } from "@/lib/site-config";
 import "./globals.css";
 
 const inter = Inter({
@@ -15,8 +16,8 @@ const playfairDisplay = Playfair_Display({
 });
 
 export const metadata: Metadata = {
-  title: "Psalm 23 Dental Care",
-  description: "Founded on Faith, Guided by Compassion. Committed to Patient Care.",
+  title: CLINIC_NAME,
+  description: CLINIC_TAGLINE,
 };
 
 export default function RootLayout({

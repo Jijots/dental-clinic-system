@@ -3,6 +3,7 @@ import { prisma } from "@/lib/prisma";
 import { PrintButton } from "@/components/print-button";
 import { PrintWatermark } from "@/components/print-watermark";
 import { calcAge, securityCode } from "@/lib/document-format";
+import { CLINIC_NAME } from "@/lib/site-config";
 
 const DOCUMENT_TITLE: Record<string, string> = {
   MEDICAL_CERTIFICATE: "Medical Certificate",
@@ -36,7 +37,7 @@ export default async function DocumentDetailPage({
       </div>
 
       <div className="border-b-2 border-brand-700 pb-3 text-center">
-        <h1 className="text-2xl font-bold text-gray-900">Psalm 23 Dental Care</h1>
+        <h1 className="text-2xl font-bold text-gray-900">{CLINIC_NAME}</h1>
         <p className="text-sm text-gray-600">General &amp; Family Dentistry</p>
       </div>
 
@@ -103,7 +104,7 @@ export default async function DocumentDetailPage({
         Security Code: {securityCode(doc.id)}
       </p>
       <p className="mt-1 text-center text-[10px] text-gray-400">
-        Issued by {doc.issuedBy.name} via Psalm 23 Dental Care Clinic System
+        Issued by {doc.issuedBy.name} via {CLINIC_NAME} Clinic System
       </p>
     </div>
   );

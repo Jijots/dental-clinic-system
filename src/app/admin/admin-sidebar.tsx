@@ -15,6 +15,7 @@ import {
   ChevronLeft,
   ChevronRight,
 } from "lucide-react";
+import { CLINIC_NAME } from "@/lib/site-config";
 
 const NAV = [
   { href: "/admin", label: "Dashboard", icon: LayoutDashboard },
@@ -45,7 +46,7 @@ export function AdminSidebar({
       <div className="flex items-center justify-between border-b border-white/10 px-4 py-5">
         {expanded && (
           <div className="min-w-0">
-            <p className="truncate font-serif text-sm font-semibold">Psalm 23 Dental Care</p>
+            <p className="truncate font-serif text-sm font-semibold">{CLINIC_NAME}</p>
             <p className="text-xs text-white/50">Admin System</p>
           </div>
         )}

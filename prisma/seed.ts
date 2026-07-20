@@ -10,58 +10,53 @@ async function main() {
   const branches = await Promise.all(
     [
       {
-        name: "San Fernando Branch",
-        address: "Fortune Royale Phase 5 Commercial 7, Panipuan, City of San Fernando, Pampanga",
-        phone: "0998 429 6160",
+        name: "Main Branch",
+        address: "123 Rizal Street, Poblacion, Sample City",
+        phone: "0900 111 2222",
       },
       {
-        name: "Magalang 1st Floor Branch",
-        address: "Paras Commercial Center Magalang, Cor. Lacson St., San Pedro I, Magalang, Pampanga",
-        phone: "0928 406 7278",
+        name: "Downtown Branch",
+        address: "456 Mabini Avenue, Downtown District, Sample City",
+        phone: "0900 333 4444",
       },
       {
-        name: "Magalang 2nd Floor Branch",
-        address: "Paras Commercial Center Magalang, Cor. Lacson St., San Pedro I, Magalang, Pampanga",
-        phone: "0928 406 7278",
-      },
-      {
-        name: "Angeles Branch",
-        address: "11C Unit E Rivera Blvd., Marisol Plaza, Brgy. Ninoy Aquino, Angeles City",
-        phone: "0962 359 7957",
+        name: "Uptown Branch",
+        address: "789 Luna Road, Uptown District, Sample City",
+        phone: "0900 555 6666",
       },
     ].map((b) =>
       prisma.branch.upsert({ where: { name: b.name }, update: {}, create: b })
     )
   );
 
-  const [sanFernando, magalang1, , angeles] = branches;
+  const [main, downtown, uptown] = branches;
 
   const dentists = await Promise.all([
     prisma.dentist.create({
       data: {
-        name: "Dr. Jao Briones",
-        branchId: sanFernando.id,
+        name: "Dr. Ana Reyes",
+        branchId: main.id,
         commissionRate: 12,
-        licenseNumber: "112233",
-        ptrNumber: "9876543",
+        licenseNumber: "100001",
+        ptrNumber: "9000001",
       },
     }),
     prisma.dentist.create({
       data: {
-        name: "Dr. Caryl Catangui Torres",
-        branchId: magalang1.id,
+        name: "Dr. Mark Santos",
+        branchId: downtown.id,
         commissionRate: 12,
-        licenseNumber: "114455",
-        ptrNumber: "9876544",
+        licenseNumber: "100002",
+        ptrNumber: "9000002",
       },
     }),
     prisma.dentist.create({
       data: {
-        name: "Dr. Maria Regina Valencia",
-        branchId: angeles.id,
+        name: "Dr. Liza Cruz",
+        branchId: uptown.id,
         commissionRate: 15,
-        licenseNumber: "116677",
-        ptrNumber: "9876545",
+        licenseNumber: "100003",
+        ptrNumber: "9000003",
       },
     }),
   ]);
@@ -82,22 +77,22 @@ async function main() {
     )
   );
 
-  const passwordHash = await bcrypt.hash("psalm23admin", 10);
+  const passwordHash = await bcrypt.hash("brightsideadmin", 10);
   await prisma.staffUser.upsert({
-    where: { email: "admin@psalm23dentalcare.com" },
+    where: { email: "admin@brightsidedental.example" },
     update: {},
     create: {
       name: "Admin",
-      email: "admin@psalm23dentalcare.com",
+      email: "admin@brightsidedental.example",
       passwordHash,
       role: "ADMIN",
-      branchId: sanFernando.id,
+      branchId: main.id,
     },
   });
 
   console.log("Seeded branches:", branches.map((b) => b.name));
   console.log("Seeded dentists:", dentists.map((d) => d.name));
-  console.log("Admin login: admin@psalm23dentalcare.com / psalm23admin");
+  console.log("Admin login: admin@brightsidedental.example / brightsideadmin");
 }
 
 main()

@@ -11,14 +11,15 @@
   --font-sans: var(--font-inter);
   --font-serif: var(--font-playfair);
 
-  /* Matches psalm23dentalcare.com's actual palette */
-  --color-brand-50: #f2f4f0;
-  --color-brand-100: #dfe6db;
-  --color-brand-600: #6c7f67;
-  --color-brand-700: #586b54;
-  --color-brand-800: #3f4c3c;
-  --color-brand-900: #2f352e; /* deep olive-black used for headings/body text */
-  --color-cream: #f3f2ed; /* section background used behind e.g. the locations list */
+  /* Generic template palette — violet primary, swap for your own clinic's brand colors */
+  --color-brand-50: #f2f0fb;
+  --color-brand-100: #e0dcf5;
+  --color-brand-600: #7c5fd6;
+  --color-brand-700: #5b3fb8;
+  --color-brand-800: #452f8c;
+  --color-brand-900: #271a4d; /* deep violet-black used for headings/body text */
+  --color-cream: #f6f4fc; /* section background used behind e.g. the locations list */
+  --color-tan: #e9e4f7; /* card/strip background used behind feature and service cards */
 }
 
 body {

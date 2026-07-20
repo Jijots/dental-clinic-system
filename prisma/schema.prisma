@@ -1,4 +1,4 @@
-// Psalm 23 Dental Care — Clinic Management System
+// Dental Clinic Management System (generic template)
 // Data model covers: branches, staff auth, patients, appointments (with
 // slot-conflict prevention), treatment history / E-SOA, odontogram
 // (whole-tooth + per-surface), expenses, HMO providers, and generated

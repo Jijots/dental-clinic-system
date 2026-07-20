@@ -1,6 +1,7 @@
 import { redirect } from "next/navigation";
 import { signIn, auth } from "@/lib/auth";
 import { AuthError } from "next-auth";
+import { CLINIC_NAME } from "@/lib/site-config";
 
 async function loginAction(formData: FormData) {
   "use server";
@@ -25,7 +26,7 @@ export default async function LoginPage() {
   return (
     <div className="mx-auto flex min-h-screen max-w-sm flex-col justify-center px-6">
       <h1 className="text-2xl font-bold text-gray-900">Staff Login</h1>
-      <p className="mt-1 text-sm text-gray-600">Psalm 23 Dental Care admin system</p>
+      <p className="mt-1 text-sm text-gray-600">{CLINIC_NAME} admin system</p>
       <form action={loginAction} className="mt-8 space-y-4">
         <div>
           <label className="block text-sm font-medium text-gray-700">Email</label>

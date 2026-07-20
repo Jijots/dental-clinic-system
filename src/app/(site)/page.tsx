@@ -47,12 +47,12 @@ export default async function HomePage() {
   return (
     <div>
       {/* Hero */}
-      <section className="bg-gradient-to-b from-brand-100 to-cream px-6 py-24 text-center">
+      <section className="bg-cream px-6 py-24 text-center">
         <p className="text-sm font-semibold uppercase tracking-widest text-brand-700">
           Healthy Smiles Start Here
         </p>
         <h1 className="mx-auto mt-3 max-w-3xl font-serif text-4xl font-medium text-brand-900 sm:text-5xl">
-          Providing trusted care for individuals and families across Pampanga
+          Providing trusted, personalized dental care for individuals and families
         </h1>
         <div className="mt-8 flex flex-wrap justify-center gap-4">
           <Link
@@ -69,7 +69,7 @@ export default async function HomePage() {
           </Link>
         </div>
         <p className="mt-8 text-xs font-bold uppercase tracking-widest text-brand-700">
-          {branches.length} Branches Across Pampanga
+          {branches.length} {branches.length === 1 ? "Branch" : "Branches"} Near You
         </p>
       </section>
 
@@ -80,24 +80,23 @@ export default async function HomePage() {
             Our Story &amp; Philosophy
           </p>
           <h2 className="mt-3 font-serif text-3xl font-medium text-brand-900">
-            Founded on Faith, Guided by Compassion. Committed to Patient Care.
+            Modern Dental Care, Personal Attention
           </h2>
           <p className="mt-6 text-brand-900/80">
             Every patient who walks through our doors deserves to be treated with compassion,
-            honesty, and genuine care. We take Psalm 23:1 to heart — &ldquo;The Lord is my
-            shepherd, I lack nothing&rdquo; — and try to build a practice where that same sense of
-            peace and trust carries into every visit.
+            honesty, and genuine care. We take the time to explain what&apos;s actually going on
+            with your teeth, walk through every option in plain language, and let you decide
+            what&apos;s right for you and your family.
           </p>
           <p className="mt-4 text-brand-900/80">
-            Dentistry is only part of what we hope to give back. Through the trust our patients
-            place in us, we&apos;re able to support our church and community — every smile we
-            care for becomes part of something a little bigger than the two of us in the chair.
+            From your very first visit to years of ongoing care, our goal is simple: treat you
+            the way we&apos;d want our own family treated, every single time.
           </p>
         </div>
 
         <div className="mx-auto mt-16 grid max-w-5xl gap-8 sm:grid-cols-3">
           {FEATURES.map((f) => (
-            <div key={f.title} className="rounded-lg bg-brand-100/60 p-6 text-center">
+            <div key={f.title} className="rounded-lg bg-tan p-6 text-center">
               <f.icon className="mx-auto text-brand-700" size={28} />
               <h3 className="mt-4 font-serif text-lg font-medium text-brand-900">{f.title}</h3>
               <p className="mt-2 text-sm text-brand-900/70">{f.body}</p>
@@ -111,7 +110,7 @@ export default async function HomePage() {
         <div className="mx-auto max-w-5xl">
           <div className="grid gap-8 sm:grid-cols-3">
             {SERVICES.map((s) => (
-              <div key={s.title} className="rounded-lg border border-brand-100 p-6">
+              <div key={s.title} className="rounded-lg bg-tan p-6">
                 <s.icon className="text-brand-700" size={26} />
                 <h3 className="mt-4 font-serif text-lg font-medium text-brand-900">{s.title}</h3>
                 <p className="mt-2 text-sm text-gray-600">{s.body}</p>
@@ -129,7 +128,7 @@ export default async function HomePage() {
 
       {/* HMOs */}
       {hmoProviders.length > 0 && (
-        <section className="bg-brand-100/40 px-6 py-14 text-center">
+        <section className="bg-tan px-6 py-14 text-center">
           <p className="text-xs font-bold uppercase tracking-widest text-brand-700">
             Trusted by Leading HMOs
           </p>
@@ -181,16 +180,16 @@ export default async function HomePage() {
       </section>
 
       {/* CTA */}
-      <section className="bg-brand-700 px-6 py-16 text-center">
-        <h2 className="font-serif text-3xl font-medium text-cream">
+      <section className="bg-white px-6 py-16 text-center">
+        <h2 className="font-serif text-3xl font-medium text-brand-900">
           Ready to achieve a healthier smile?
         </h2>
-        <p className="mt-3 text-brand-50/80">
+        <p className="mt-3 text-gray-600">
           Book your appointment today and let us take care of your smile.
         </p>
         <Link
           href="/book"
-          className="mt-8 inline-block rounded bg-cream px-8 py-3 text-sm font-semibold uppercase tracking-wide text-brand-900 hover:bg-white"
+          className="mt-8 inline-block rounded bg-brand-700 px-8 py-3 text-sm font-semibold uppercase tracking-wide text-white hover:bg-brand-800"
         >
           Book an Appointment
         </Link>
