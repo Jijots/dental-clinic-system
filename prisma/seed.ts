@@ -61,7 +61,7 @@ async function main() {
     }),
   ]);
 
-  await Promise.all(
+  const services = await Promise.all(
     [
       { name: "Oral Prophylaxis", category: "General", defaultFee: 500 },
       { name: "Tooth Filling", category: "General", defaultFee: 1000 },
@@ -71,11 +71,127 @@ async function main() {
     ].map((s) => prisma.service.create({ data: s }))
   );
 
-  await Promise.all(
+  const hmoProviders = await Promise.all(
     ["Intellicare", "Flexicare", "Maxicare", "Medicard"].map((name) =>
       prisma.hmoProvider.upsert({ where: { name }, update: {}, create: { name } })
     )
   );
+  const [intellicare, , maxicare] = hmoProviders;
+  const [dentistMain, dentistDowntown, dentistUptown] = dentists;
+
+  const maria = await prisma.patient.create({
+    data: {
+      lastName: "Santos",
+      firstName: "Maria",
+      gender: "Female",
+      birthday: new Date("1990-04-12"),
+      contactNumber: "0917 100 2001",
+      homeAddress: "12 Sampaguita St., Sample City",
+      allergies: "Penicillin",
+      branchId: main.id,
+      hmoProviderId: intellicare.id,
+    },
+  });
+  const juan = await prisma.patient.create({
+    data: {
+      lastName: "Dela Cruz",
+      firstName: "Juan",
+      gender: "Male",
+      birthday: new Date("1985-11-02"),
+      contactNumber: "0917 100 2002",
+      homeAddress: "45 Ilang-Ilang St., Downtown District, Sample City",
+      branchId: downtown.id,
+    },
+  });
+  const sofia = await prisma.patient.create({
+    data: {
+      lastName: "Reyes",
+      firstName: "Sofia",
+      gender: "Female",
+      birthday: new Date("1998-02-20"),
+      contactNumber: "0917 100 2003",
+      homeAddress: "8 Kalachuchi St., Uptown District, Sample City",
+      branchId: uptown.id,
+      hmoProviderId: maxicare.id,
+    },
+  });
+  await prisma.patient.create({
+    data: {
+      lastName: "Torres",
+      firstName: "Miguel",
+      gender: "Male",
+      birthday: new Date("2014-06-18"),
+      guardianName: "Elena Torres",
+      guardianOccupation: "Teacher",
+      contactNumber: "0917 100 2004",
+      homeAddress: "12 Sampaguita St., Sample City",
+      branchId: main.id,
+    },
+  });
+
+  const mariaTreatment = await prisma.treatmentRecord.create({
+    data: {
+      patientId: maria.id,
+      branchId: main.id,
+      dentistId: dentistMain.id,
+      date: new Date("2026-07-05"),
+      procedure: "Oral Prophylaxis",
+      diagnosis: "Mild plaque buildup",
+      fee: 500,
+      hmoCovered: true,
+      hmoProviderId: intellicare.id,
+    },
+  });
+  await prisma.payment.create({
+    data: { treatmentRecordId: mariaTreatment.id, amount: 500, paymentType: "CASH" },
+  });
+
+  const juanTreatment = await prisma.treatmentRecord.create({
+    data: {
+      patientId: juan.id,
+      branchId: downtown.id,
+      dentistId: dentistDowntown.id,
+      date: new Date("2026-07-10"),
+      toothNumbers: "#26",
+      procedure: "Tooth Filling",
+      diagnosis: "Caries",
+      fee: 1000,
+    },
+  });
+  await prisma.payment.create({
+    data: { treatmentRecordId: juanTreatment.id, amount: 500, paymentType: "GCASH" },
+  });
+  await prisma.odontogramEntry.create({
+    data: { patientId: juan.id, toothNumber: 26, surface: "OCCLUSAL", condition: "FILLED" },
+  });
+
+  const sofiaTreatment = await prisma.treatmentRecord.create({
+    data: {
+      patientId: sofia.id,
+      branchId: uptown.id,
+      dentistId: dentistUptown.id,
+      date: new Date("2026-07-15"),
+      procedure: "Teeth Whitening",
+      fee: 3500,
+      hmoCovered: false,
+    },
+  });
+  await prisma.payment.create({
+    data: { treatmentRecordId: sofiaTreatment.id, amount: 3500, paymentType: "CARD" },
+  });
+
+  await prisma.appointment.create({
+    data: {
+      branchId: main.id,
+      dentistId: dentistMain.id,
+      serviceId: services[3].id,
+      date: new Date("2026-07-28"),
+      time: "10:00",
+      requesterName: "Carla Mendoza",
+      requesterPhone: "0917 100 2005",
+      status: "PENDING",
+    },
+  });
 
   const passwordHash = await bcrypt.hash("brightsideadmin", 10);
   await prisma.staffUser.upsert({
@@ -92,6 +208,7 @@ async function main() {
 
   console.log("Seeded branches:", branches.map((b) => b.name));
   console.log("Seeded dentists:", dentists.map((d) => d.name));
+  console.log("Seeded patients: Maria Santos, Juan Dela Cruz, Sofia Reyes, Miguel Torres");
   console.log("Admin login: admin@brightsidedental.example / brightsideadmin");
 }
 
