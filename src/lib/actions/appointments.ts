@@ -73,3 +73,19 @@ export async function createAppointmentRequest(
   revalidatePath("/book");
   return { status: "success", message: "Appointment request sent! We'll confirm by email or phone." };
 }
+
+export async function updateAppointmentStatus(formData: FormData) {
+  const appointmentId = formData.get("appointmentId") as string;
+  const status = formData.get("status") as
+    | "PENDING"
+    | "CONFIRMED"
+    | "COMPLETED"
+    | "CANCELLED";
+
+  if (!appointmentId || !["PENDING", "CONFIRMED", "COMPLETED", "CANCELLED"].includes(status)) {
+    throw new Error("Invalid status update");
+  }
+
+  await prisma.appointment.update({ where: { id: appointmentId }, data: { status } });
+  revalidatePath("/admin/appointments");
+}
