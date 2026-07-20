@@ -38,13 +38,31 @@ async function main() {
 
   const dentists = await Promise.all([
     prisma.dentist.create({
-      data: { name: "Dr. Jao Briones", branchId: sanFernando.id, commissionRate: 12 },
+      data: {
+        name: "Dr. Jao Briones",
+        branchId: sanFernando.id,
+        commissionRate: 12,
+        licenseNumber: "112233",
+        ptrNumber: "9876543",
+      },
     }),
     prisma.dentist.create({
-      data: { name: "Dr. Caryl Catangui Torres", branchId: magalang1.id, commissionRate: 12 },
+      data: {
+        name: "Dr. Caryl Catangui Torres",
+        branchId: magalang1.id,
+        commissionRate: 12,
+        licenseNumber: "114455",
+        ptrNumber: "9876544",
+      },
     }),
     prisma.dentist.create({
-      data: { name: "Dr. Maria Regina Valencia", branchId: angeles.id, commissionRate: 15 },
+      data: {
+        name: "Dr. Maria Regina Valencia",
+        branchId: angeles.id,
+        commissionRate: 15,
+        licenseNumber: "116677",
+        ptrNumber: "9876545",
+      },
     }),
   ]);
 

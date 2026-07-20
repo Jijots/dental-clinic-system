@@ -1,6 +1,8 @@
 import { notFound } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import { PrintButton } from "@/components/print-button";
+import { PrintWatermark } from "@/components/print-watermark";
+import { calcAge, securityCode } from "@/lib/document-format";
 
 const PAYMENT_LABEL: Record<string, string> = {
   CASH: "Cash",
@@ -39,10 +41,14 @@ export default async function StatementOfAccountPage({
   const totalPaid = payments.reduce((sum, p) => sum + Number(p.amount), 0);
   const balance = totalFee - totalPaid;
 
-  const today = new Date().toISOString().slice(0, 10);
+  const today = new Date();
+  const todayStr = today.toISOString().slice(0, 10);
+  const age = calcAge(patient.birthday, today);
 
   return (
     <div className="mx-auto max-w-3xl bg-white p-8 print:w-full print:max-w-full print:p-0 print:text-xs">
+      <PrintWatermark text={`${patient.lastName}, ${patient.firstName} — ${todayStr}`} />
+
       <div className="mb-6 flex justify-end print:hidden">
         <PrintButton label="Print Statement of Account" />
       </div>
@@ -58,23 +64,47 @@ export default async function StatementOfAccountPage({
         Electronic Statement of Account
       </h2>
 
-      <div className="mt-6 grid grid-cols-2 gap-x-8 gap-y-2 text-sm">
-        <p>
-          <span className="font-medium text-gray-700">Client Name: </span>
-          {patient.lastName}, {patient.firstName}
-        </p>
-        <p>
-          <span className="font-medium text-gray-700">Date Issued: </span>
-          {today}
-        </p>
-        <p>
-          <span className="font-medium text-gray-700">Contact Number: </span>
-          {patient.contactNumber ?? "-"}
-        </p>
-        <p>
-          <span className="font-medium text-gray-700">HMO Accredited: </span>
-          {patient.hmoProvider?.name ?? "None"}
-        </p>
+      <div className="mt-6 grid grid-cols-2 gap-x-8 gap-y-3 text-sm">
+        <div>
+          <p className="text-[11px] uppercase text-gray-500">Name</p>
+          <p className="border-b border-gray-300 pb-1 font-medium text-gray-900">
+            {patient.lastName}, {patient.firstName}
+          </p>
+        </div>
+        <div>
+          <p className="text-[11px] uppercase text-gray-500">Date Issued</p>
+          <p className="border-b border-gray-300 pb-1 font-medium text-gray-900">{todayStr}</p>
+        </div>
+        <div className="col-span-2">
+          <p className="text-[11px] uppercase text-gray-500">Address</p>
+          <p className="border-b border-gray-300 pb-1 font-medium text-gray-900">
+            {patient.homeAddress ?? "-"}
+          </p>
+        </div>
+        <div>
+          <p className="text-[11px] uppercase text-gray-500">Age</p>
+          <p className="border-b border-gray-300 pb-1 font-medium text-gray-900">
+            {age !== null ? `${age} years` : "-"}
+          </p>
+        </div>
+        <div>
+          <p className="text-[11px] uppercase text-gray-500">Sex</p>
+          <p className="border-b border-gray-300 pb-1 font-medium text-gray-900">
+            {patient.gender ?? "-"}
+          </p>
+        </div>
+        <div>
+          <p className="text-[11px] uppercase text-gray-500">Contact Number</p>
+          <p className="border-b border-gray-300 pb-1 font-medium text-gray-900">
+            {patient.contactNumber ?? "-"}
+          </p>
+        </div>
+        <div>
+          <p className="text-[11px] uppercase text-gray-500">HMO Accredited</p>
+          <p className="border-b border-gray-300 pb-1 font-medium text-gray-900">
+            {patient.hmoProvider?.name ?? "None"}
+          </p>
+        </div>
       </div>
 
       <table className="mt-6 w-full border-collapse text-sm">
@@ -176,6 +206,10 @@ export default async function StatementOfAccountPage({
           <div className="border-t border-gray-500 pt-1">Date Signed</div>
         </div>
       </div>
+
+      <p className="mt-10 text-center text-[10px] tracking-widest text-gray-400">
+        Security Code: {securityCode(patient.id + todayStr)}
+      </p>
     </div>
   );
 }

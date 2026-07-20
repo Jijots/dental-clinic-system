@@ -51,13 +51,31 @@ export default async function ConfigurationsPage() {
             placeholder="Commission %"
             className="rounded-md border px-3 py-2 text-sm"
           />
-          <button className="rounded-md bg-emerald-700 px-4 py-2 text-sm text-white">Add Dentist</button>
+          <input
+            name="licenseNumber"
+            placeholder="PRC No."
+            className="rounded-md border px-3 py-2 text-sm"
+          />
+          <input
+            name="ptrNumber"
+            placeholder="PTR No."
+            className="rounded-md border px-3 py-2 text-sm"
+          />
+          <button className="rounded-md bg-emerald-700 px-4 py-2 text-sm text-white sm:col-span-4 sm:w-fit">
+            Add Dentist
+          </button>
         </form>
         <ul className="mt-3 divide-y rounded-lg border bg-white text-sm">
           {dentists.map((d) => (
             <li key={d.id} className="px-4 py-2">
               <span className="font-medium">{d.name}</span> — {d.branch?.name ?? "No branch"} ·{" "}
               {Number(d.commissionRate)}% commission
+              {(d.licenseNumber || d.ptrNumber) && (
+                <span className="text-gray-500">
+                  {" "}
+                  · PRC {d.licenseNumber ?? "-"} / PTR {d.ptrNumber ?? "-"}
+                </span>
+              )}
             </li>
           ))}
         </ul>

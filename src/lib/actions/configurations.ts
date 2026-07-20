@@ -17,9 +17,13 @@ export async function addDentist(formData: FormData) {
   const name = formData.get("name") as string;
   const branchId = (formData.get("branchId") as string) || null;
   const commissionRate = Number(formData.get("commissionRate") ?? 0);
+  const licenseNumber = (formData.get("licenseNumber") as string) || null;
+  const ptrNumber = (formData.get("ptrNumber") as string) || null;
   if (!name) throw new Error("Missing required fields");
 
-  await prisma.dentist.create({ data: { name, branchId, commissionRate } });
+  await prisma.dentist.create({
+    data: { name, branchId, commissionRate, licenseNumber, ptrNumber },
+  });
   revalidatePath("/admin/configurations");
 }
 

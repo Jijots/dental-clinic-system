@@ -59,6 +59,8 @@ model Dentist {
   branchId       String?
   commissionRate Decimal @default(0) @db.Decimal(5, 2) // percent, for payroll report
   active         Boolean @default(true)
+  licenseNumber  String? // PRC No.
+  ptrNumber      String? // PTR No.
 
   appointments Appointment[]
   treatments   TreatmentRecord[]
