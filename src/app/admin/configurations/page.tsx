@@ -19,7 +19,7 @@ export default async function ConfigurationsPage() {
           <input name="name" placeholder="Branch name" required className="rounded-md border px-3 py-2 text-sm" />
           <input name="address" placeholder="Address" required className="rounded-md border px-3 py-2 text-sm sm:col-span-2" />
           <input name="phone" placeholder="Phone" className="rounded-md border px-3 py-2 text-sm" />
-          <button className="rounded-md bg-emerald-700 px-4 py-2 text-sm text-white sm:col-span-4 sm:w-fit">
+          <button className="rounded-md bg-brand-700 px-4 py-2 text-sm text-white sm:col-span-4 sm:w-fit">
             Add Branch
           </button>
         </form>
@@ -61,7 +61,7 @@ export default async function ConfigurationsPage() {
             placeholder="PTR No."
             className="rounded-md border px-3 py-2 text-sm"
           />
-          <button className="rounded-md bg-emerald-700 px-4 py-2 text-sm text-white sm:col-span-4 sm:w-fit">
+          <button className="rounded-md bg-brand-700 px-4 py-2 text-sm text-white sm:col-span-4 sm:w-fit">
             Add Dentist
           </button>
         </form>
@@ -93,7 +93,7 @@ export default async function ConfigurationsPage() {
             placeholder="Default fee"
             className="rounded-md border px-3 py-2 text-sm"
           />
-          <button className="rounded-md bg-emerald-700 px-4 py-2 text-sm text-white">Add Service</button>
+          <button className="rounded-md bg-brand-700 px-4 py-2 text-sm text-white">Add Service</button>
         </form>
         <ul className="mt-3 divide-y rounded-lg border bg-white text-sm">
           {services.map((s) => (
@@ -108,7 +108,7 @@ export default async function ConfigurationsPage() {
         <h2 className="text-lg font-semibold text-gray-900">HMO Providers</h2>
         <form action={addHmoProvider} className="mt-3 flex gap-3 rounded-lg border bg-white p-4">
           <input name="name" placeholder="HMO provider name" required className="flex-1 rounded-md border px-3 py-2 text-sm" />
-          <button className="rounded-md bg-emerald-700 px-4 py-2 text-sm text-white">Add</button>
+          <button className="rounded-md bg-brand-700 px-4 py-2 text-sm text-white">Add</button>
         </form>
         <ul className="mt-3 divide-y rounded-lg border bg-white text-sm">
           {hmoProviders.map((h) => (

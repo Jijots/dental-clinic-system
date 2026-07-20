@@ -28,7 +28,7 @@ export default async function PatientsPage({
         <h1 className="text-2xl font-bold text-gray-900">Patient&apos;s Profile</h1>
         <Link
           href="/admin/patients/new"
-          className="rounded-md bg-emerald-700 px-4 py-2 text-sm font-medium text-white hover:bg-emerald-800"
+          className="rounded-md bg-brand-700 px-4 py-2 text-sm font-medium text-white hover:bg-brand-800"
         >
           + Add Patient
         </Link>
@@ -65,7 +65,7 @@ export default async function PatientsPage({
                 <td className="px-4 py-3 text-gray-600">{p.contactNumber ?? "-"}</td>
                 <td className="px-4 py-3 text-gray-600">{p.hmoProviderId ? "Yes" : "-"}</td>
                 <td className="px-4 py-3 text-right">
-                  <Link href={`/admin/patients/${p.id}`} className="text-emerald-700 hover:underline">
+                  <Link href={`/admin/patients/${p.id}`} className="text-brand-700 hover:underline">
                     View →
                   </Link>
                 </td>

@@ -53,7 +53,7 @@ export default async function StatementOfAccountPage({
         <PrintButton label="Print Statement of Account" />
       </div>
 
-      <div className="border-b-2 border-emerald-700 pb-4">
+      <div className="border-b-2 border-brand-700 pb-4">
         <h1 className="text-2xl font-bold text-gray-900">Psalm 23 Dental Care</h1>
         <p className="text-sm text-gray-600">{patient.branch.name}</p>
         <p className="text-sm text-gray-600">{patient.branch.address}</p>

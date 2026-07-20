@@ -47,7 +47,7 @@ export default async function PatientDetailPage({
           </h1>
           <Link
             href={`/admin/patients/${patient.id}/edit`}
-            className="text-sm text-emerald-700 hover:underline"
+            className="text-sm text-brand-700 hover:underline"
           >
             Edit
           </Link>
@@ -70,7 +70,7 @@ export default async function PatientDetailPage({
         </div>
         <div className="rounded-lg border bg-white p-5">
           <p className="text-xs font-medium uppercase text-gray-500">Total Payment</p>
-          <p className="mt-1 text-xl font-semibold text-emerald-700">₱{totalPaid.toLocaleString()}</p>
+          <p className="mt-1 text-xl font-semibold text-brand-700">₱{totalPaid.toLocaleString()}</p>
         </div>
         <div className="rounded-lg border bg-white p-5">
           <p className="text-xs font-medium uppercase text-gray-500">Remaining Balance</p>
@@ -83,7 +83,7 @@ export default async function PatientDetailPage({
           <h2 className="text-lg font-semibold text-gray-900">Treatment History / E-SOA</h2>
           <Link
             href={`/admin/patients/${patient.id}/soa`}
-            className="rounded-md border border-emerald-700 px-3 py-1.5 text-sm font-medium text-emerald-700 hover:bg-emerald-50"
+            className="rounded-md border border-brand-700 px-3 py-1.5 text-sm font-medium text-brand-700 hover:bg-brand-50"
           >
             View / Print Statement of Account
           </Link>

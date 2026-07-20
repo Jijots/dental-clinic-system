@@ -41,7 +41,7 @@ export default async function ExpensesPage() {
         />
         <button
           type="submit"
-          className="rounded-md bg-emerald-700 px-4 py-2 text-sm font-medium text-white hover:bg-emerald-800 sm:col-span-1"
+          className="rounded-md bg-brand-700 px-4 py-2 text-sm font-medium text-white hover:bg-brand-800 sm:col-span-1"
         >
           Add Expense
         </button>

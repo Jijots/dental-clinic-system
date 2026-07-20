@@ -51,7 +51,7 @@ export default async function DocumentsPage() {
         />
         <button
           type="submit"
-          className="rounded-md bg-emerald-700 px-4 py-2 text-sm font-medium text-white hover:bg-emerald-800"
+          className="rounded-md bg-brand-700 px-4 py-2 text-sm font-medium text-white hover:bg-brand-800"
         >
           Generate Document
         </button>
@@ -78,7 +78,7 @@ export default async function DocumentsPage() {
                 <td className="px-4 py-3">{d.dentist.name}</td>
                 <td className="px-4 py-3">{d.type.replace("_", " ")}</td>
                 <td className="px-4 py-3 text-right">
-                  <Link href={`/admin/documents/${d.id}`} className="text-emerald-700 hover:underline">
+                  <Link href={`/admin/documents/${d.id}`} className="text-brand-700 hover:underline">
                     View / Print →
                   </Link>
                 </td>

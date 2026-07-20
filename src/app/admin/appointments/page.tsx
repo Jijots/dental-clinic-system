@@ -4,7 +4,7 @@ import { updateAppointmentStatus } from "@/lib/actions/appointments";
 const STATUS_STYLE: Record<string, string> = {
   PENDING: "bg-amber-100 text-amber-800",
   CONFIRMED: "bg-blue-100 text-blue-800",
-  COMPLETED: "bg-emerald-100 text-emerald-800",
+  COMPLETED: "bg-brand-100 text-brand-800",
   CANCELLED: "bg-gray-200 text-gray-600",
 };
 
@@ -67,7 +67,7 @@ export default async function AppointmentsPage({
         </div>
         <button
           type="submit"
-          className="rounded-md bg-emerald-700 px-4 py-2 text-sm font-medium text-white hover:bg-emerald-800"
+          className="rounded-md bg-brand-700 px-4 py-2 text-sm font-medium text-white hover:bg-brand-800"
         >
           Filter
         </button>
@@ -118,7 +118,7 @@ export default async function AppointmentsPage({
                         <button
                           name="status"
                           value="CONFIRMED"
-                          className="rounded-md border border-emerald-700 px-2 py-1 text-xs font-medium text-emerald-700 hover:bg-emerald-50"
+                          className="rounded-md border border-brand-700 px-2 py-1 text-xs font-medium text-brand-700 hover:bg-brand-50"
                         >
                           Confirm
                         </button>
@@ -136,7 +136,7 @@ export default async function AppointmentsPage({
                         <button
                           name="status"
                           value="COMPLETED"
-                          className="rounded-md border border-emerald-700 px-2 py-1 text-xs font-medium text-emerald-700 hover:bg-emerald-50"
+                          className="rounded-md border border-brand-700 px-2 py-1 text-xs font-medium text-brand-700 hover:bg-brand-50"
                         >
                           Mark Completed
                         </button>

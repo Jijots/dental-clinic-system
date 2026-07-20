@@ -128,7 +128,7 @@ export function BookingForm({
                 className={`cursor-pointer rounded-md border px-2 py-2 text-center text-sm ${
                   isTaken
                     ? "cursor-not-allowed bg-gray-100 text-gray-400 line-through"
-                    : "hover:border-emerald-600"
+                    : "hover:border-brand-600"
                 }`}
               >
                 <input
@@ -176,7 +176,7 @@ export function BookingForm({
       <button
         type="submit"
         disabled={pending}
-        className="w-full rounded-md bg-emerald-700 px-4 py-3 font-medium text-white hover:bg-emerald-800 disabled:opacity-60"
+        className="w-full rounded-md bg-brand-700 px-4 py-3 font-medium text-white hover:bg-brand-800 disabled:opacity-60"
       >
         {pending ? "Sending..." : "Request Appointment"}
       </button>
@@ -184,7 +184,7 @@ export function BookingForm({
       {state.status !== "idle" && (
         <p
           className={`text-sm ${
-            state.status === "success" ? "text-emerald-700" : "text-red-600"
+            state.status === "success" ? "text-brand-700" : "text-red-600"
           }`}
         >
           {state.message}

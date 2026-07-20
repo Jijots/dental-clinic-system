@@ -35,7 +35,7 @@ export default async function DocumentDetailPage({
         <PrintButton />
       </div>
 
-      <div className="border-b-2 border-emerald-700 pb-3 text-center">
+      <div className="border-b-2 border-brand-700 pb-3 text-center">
         <h1 className="text-2xl font-bold text-gray-900">Psalm 23 Dental Care</h1>
         <p className="text-sm text-gray-600">General &amp; Family Dentistry</p>
       </div>

@@ -34,7 +34,7 @@ export function PaymentRow({ patientId, treatment }: { patientId: string; treatm
             <button
               type="button"
               onClick={() => setShowForm((v) => !v)}
-              className="text-xs text-emerald-700 hover:underline"
+              className="text-xs text-brand-700 hover:underline"
             >
               {showForm ? "Cancel" : "Add Payment"}
             </button>
@@ -77,7 +77,7 @@ export function PaymentRow({ patientId, treatment }: { patientId: string; treatm
               </div>
               <button
                 type="submit"
-                className="rounded-md bg-emerald-700 px-3 py-1.5 text-sm text-white hover:bg-emerald-800"
+                className="rounded-md bg-brand-700 px-3 py-1.5 text-sm text-white hover:bg-brand-800"
               >
                 Save Payment
               </button>

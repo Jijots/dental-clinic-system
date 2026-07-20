@@ -10,6 +10,13 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+
+  /* Matches the sage/olive green used on psalm23dentalcare.com */
+  --color-brand-50: #f2f4f0;
+  --color-brand-100: #dfe6db;
+  --color-brand-600: #6c7f67;
+  --color-brand-700: #586b54;
+  --color-brand-800: #3f4c3c;
 }
 
 body {

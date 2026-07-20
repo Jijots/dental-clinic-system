@@ -4,7 +4,7 @@ export default function HomePage() {
   return (
     <div className="mx-auto max-w-6xl px-6 py-16">
       <section className="text-center">
-        <p className="text-sm font-semibold uppercase tracking-wide text-emerald-700">
+        <p className="text-sm font-semibold uppercase tracking-wide text-brand-700">
           Healthy Smiles Start Here
         </p>
         <h1 className="mt-2 text-4xl font-bold text-gray-900">
@@ -16,13 +16,13 @@ export default function HomePage() {
         <div className="mt-8 flex justify-center gap-4">
           <Link
             href="/book"
-            className="rounded-md bg-emerald-700 px-6 py-3 font-medium text-white hover:bg-emerald-800"
+            className="rounded-md bg-brand-700 px-6 py-3 font-medium text-white hover:bg-brand-800"
           >
             Book Appointment
           </Link>
           <Link
             href="/contact"
-            className="rounded-md border border-emerald-700 px-6 py-3 font-medium text-emerald-700 hover:bg-emerald-50"
+            className="rounded-md border border-brand-700 px-6 py-3 font-medium text-brand-700 hover:bg-brand-50"
           >
             Contact Us
           </Link>

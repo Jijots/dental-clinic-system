@@ -149,7 +149,7 @@ export default async function EditPatientPage({
         <div className="flex items-center gap-3">
           <button
             type="submit"
-            className="rounded-md bg-emerald-700 px-4 py-2 text-sm font-medium text-white hover:bg-emerald-800"
+            className="rounded-md bg-brand-700 px-4 py-2 text-sm font-medium text-white hover:bg-brand-800"
           >
             Save Changes
           </button>
