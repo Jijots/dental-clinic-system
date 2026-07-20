@@ -1,0 +1,331 @@
+// Psalm 23 Dental Care — Clinic Management System
+// Data model covers: branches, staff auth, patients, appointments (with
+// slot-conflict prevention), treatment history / E-SOA, odontogram
+// (whole-tooth + per-surface), expenses, HMO providers, and generated
+// documents (medical certificates / prescriptions).
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ---------------------------------------------------------------------------
+// Access & org structure
+// ---------------------------------------------------------------------------
+
+enum StaffRole {
+  ADMIN
+  STAFF
+  DENTIST
+}
+
+model StaffUser {
+  id           String    @id @default(cuid())
+  name         String
+  email        String    @unique
+  passwordHash String
+  role         StaffRole @default(STAFF)
+  branch       Branch?   @relation(fields: [branchId], references: [id])
+  branchId     String?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  expenses          Expense[]
+  generatedDocuments GeneratedDocument[]
+}
+
+model Branch {
+  id      String @id @default(cuid())
+  name    String @unique
+  address String
+  phone   String?
+
+  staff         StaffUser[]
+  dentists      Dentist[]
+  patients      Patient[]
+  appointments  Appointment[]
+  treatments    TreatmentRecord[]
+  expenses      Expense[]
+}
+
+model Dentist {
+  id             String  @id @default(cuid())
+  name           String
+  branch         Branch? @relation(fields: [branchId], references: [id])
+  branchId       String?
+  commissionRate Decimal @default(0) @db.Decimal(5, 2) // percent, for payroll report
+  active         Boolean @default(true)
+
+  appointments Appointment[]
+  treatments   TreatmentRecord[]
+  documents    GeneratedDocument[]
+}
+
+model HmoProvider {
+  id   String @id @default(cuid())
+  name String @unique
+
+  patients   Patient[]
+  treatments TreatmentRecord[]
+}
+
+model Service {
+  id           String  @id @default(cuid())
+  name         String
+  category     String? // e.g. "Orthodontics", "Cosmetic Dentistry", "General"
+  defaultFee   Decimal @default(0) @db.Decimal(10, 2)
+  active       Boolean @default(true)
+
+  appointments Appointment[]
+}
+
+// ---------------------------------------------------------------------------
+// Patients
+// ---------------------------------------------------------------------------
+
+model Patient {
+  id         String    @id @default(cuid())
+  lastName   String
+  firstName  String
+  middleName String?
+  nickname   String?
+  gender     String?
+  civilStatus String?
+  birthday   DateTime?
+  religion   String?
+
+  homeAddress    String?
+  contactNumber  String?
+  emailAddress   String?
+  referredBy     String?
+
+  // Minors
+  guardianName       String?
+  guardianOccupation String?
+
+  // Medical
+  allergies          String?
+  medicalConditions  String?
+
+  // HMO
+  hmoProvider   HmoProvider? @relation(fields: [hmoProviderId], references: [id])
+  hmoProviderId String?
+  hmoAccountNo  String?
+
+  photoUrl String?
+
+  branch   Branch @relation(fields: [branchId], references: [id])
+  branchId String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  appointments      Appointment[]
+  treatmentRecords  TreatmentRecord[]
+  odontogramEntries OdontogramEntry[]
+  documents         GeneratedDocument[]
+
+  @@index([lastName, firstName])
+}
+
+// ---------------------------------------------------------------------------
+// Booking
+// ---------------------------------------------------------------------------
+
+enum AppointmentStatus {
+  PENDING
+  CONFIRMED
+  COMPLETED
+  CANCELLED
+}
+
+model Appointment {
+  id     String @id @default(cuid())
+  patient   Patient? @relation(fields: [patientId], references: [id])
+  patientId String?
+
+  // For online requests before a Patient record exists yet
+  requesterName  String?
+  requesterPhone String?
+  requesterEmail String?
+
+  branch    Branch  @relation(fields: [branchId], references: [id])
+  branchId  String
+  dentist   Dentist @relation(fields: [dentistId], references: [id])
+  dentistId String
+  service   Service? @relation(fields: [serviceId], references: [id])
+  serviceId String?
+
+  date   DateTime // calendar date only, time kept separate for slot logic
+  time   String   // "HH:mm", 24h
+  status AppointmentStatus @default(PENDING)
+  notes  String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Prevents double-booking the same dentist at the same date/time.
+  @@unique([dentistId, date, time])
+  @@index([branchId, date])
+}
+
+// ---------------------------------------------------------------------------
+// Treatment history / E-SOA
+// ---------------------------------------------------------------------------
+
+model TreatmentRecord {
+  id String @id @default(cuid())
+
+  patient   Patient @relation(fields: [patientId], references: [id])
+  patientId String
+  branch    Branch  @relation(fields: [branchId], references: [id])
+  branchId  String
+  dentist   Dentist @relation(fields: [dentistId], references: [id])
+  dentistId String
+
+  date        DateTime
+  toothNumbers String? // free-form list, e.g. "#12, #11" — matches paper chart
+  procedure   String
+  diagnosis   String?
+  remarks     String?
+  details     String?
+
+  fee            Decimal @db.Decimal(10, 2)
+  hmoCovered     Boolean @default(false)
+  hmoProvider    HmoProvider? @relation(fields: [hmoProviderId], references: [id])
+  hmoProviderId  String?
+
+  consentSignedAt DateTime?
+  signatureDataUrl String? @db.Text // captured signature, base64 PNG
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  payments Payment[]
+
+  @@index([patientId, date])
+}
+
+enum PaymentType {
+  CASH
+  GCASH
+  MAYA
+  BANK_TRANSFER
+  CARD
+  OTHER
+}
+
+model Payment {
+  id String @id @default(cuid())
+
+  treatmentRecord   TreatmentRecord @relation(fields: [treatmentRecordId], references: [id], onDelete: Cascade)
+  treatmentRecordId String
+
+  amount      Decimal     @db.Decimal(10, 2)
+  paymentType PaymentType @default(CASH)
+  paidAt      DateTime    @default(now())
+
+  createdAt DateTime @default(now())
+}
+
+// ---------------------------------------------------------------------------
+// Odontogram
+// ---------------------------------------------------------------------------
+
+enum ToothSurface {
+  WHOLE
+  MESIAL
+  DISTAL
+  OCCLUSAL
+  BUCCAL
+  LINGUAL
+}
+
+// Matches the clinic's own paper-chart legend.
+enum ToothCondition {
+  DECAYED               // D
+  MISSING_CARIES        // M
+  FILLED                // F
+  INDICATED_EXTRACTION  // I
+  ROOT_FRAGMENT         // RF
+  MISSING_OTHER         // MO
+  IMPACTED              // Im
+  JACKET_CROWN          // J
+  AMALGAM_FILLING       // A
+  ABUTMENT              // AB
+  PONTIC                // P
+  INLAY                 // In
+  FIXED_CURE_COMPOSITE  // FX
+  REMOVABLE_DENTURE     // Rm
+  EXTRACTION_CARIES     // X
+  EXTRACTION_OTHER      // XO
+  PRESENT               // check mark
+  CONGENITALLY_MISSING  // Cm
+  SUPERNUMERARY         // Sp
+}
+
+model OdontogramEntry {
+  id String @id @default(cuid())
+
+  patient   Patient @relation(fields: [patientId], references: [id])
+  patientId String
+
+  toothNumber Int          // FDI notation: 11-18, 21-28, 31-38, 41-48, 51-55, 61-65, 71-75, 81-85
+  surface     ToothSurface @default(WHOLE)
+  condition   ToothCondition
+
+  recordedAt DateTime @default(now())
+  notes      String?
+
+  @@unique([patientId, toothNumber, surface])
+}
+
+// ---------------------------------------------------------------------------
+// Expenses
+// ---------------------------------------------------------------------------
+
+model Expense {
+  id String @id @default(cuid())
+
+  branch   Branch @relation(fields: [branchId], references: [id])
+  branchId String
+
+  date        DateTime
+  particulars String
+  description String?
+  amount      Decimal  @db.Decimal(10, 2)
+
+  recordedBy   StaffUser? @relation(fields: [recordedById], references: [id])
+  recordedById String?
+
+  createdAt DateTime @default(now())
+}
+
+// ---------------------------------------------------------------------------
+// Document generation (medical certificates, prescriptions)
+// ---------------------------------------------------------------------------
+
+enum DocumentType {
+  MEDICAL_CERTIFICATE
+  PRESCRIPTION
+}
+
+model GeneratedDocument {
+  id String @id @default(cuid())
+
+  patient   Patient @relation(fields: [patientId], references: [id])
+  patientId String
+  dentist   Dentist @relation(fields: [dentistId], references: [id])
+  dentistId String
+
+  type    DocumentType
+  content String       @db.Text // rendered body / notes, template-driven
+
+  issuedBy   StaffUser @relation(fields: [issuedById], references: [id])
+  issuedById String
+  issuedAt   DateTime  @default(now())
+}

@@ -1,0 +1,15 @@
+services:
+  db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: psalm23
+      POSTGRES_PASSWORD: psalm23
+      POSTGRES_DB: psalm23_clinic
+    ports:
+      - "5432:5432"
+    volumes:
+      - psalm23_pgdata:/var/lib/postgresql/data
+
+volumes:
+  psalm23_pgdata:
