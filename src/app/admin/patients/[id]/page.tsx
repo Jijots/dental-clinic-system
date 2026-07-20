@@ -41,9 +41,17 @@ export default async function PatientDetailPage({
   return (
     <div className="space-y-8">
       <div>
-        <h1 className="text-2xl font-bold text-gray-900">
-          {patient.lastName}, {patient.firstName}
-        </h1>
+        <div className="flex items-center gap-3">
+          <h1 className="text-2xl font-bold text-gray-900">
+            {patient.lastName}, {patient.firstName}
+          </h1>
+          <Link
+            href={`/admin/patients/${patient.id}/edit`}
+            className="text-sm text-emerald-700 hover:underline"
+          >
+            Edit
+          </Link>
+        </div>
         <p className="text-sm text-gray-500">
           {patient.branch.name} · {patient.contactNumber ?? "No contact number"}
         </p>
