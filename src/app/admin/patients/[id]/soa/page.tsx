@@ -46,7 +46,7 @@ export default async function StatementOfAccountPage({
   const age = calcAge(patient.birthday, today);
 
   return (
-    <div className="mx-auto max-w-3xl bg-white p-8 print:w-full print:max-w-full print:p-0 print:text-xs">
+    <div className="mx-auto max-w-3xl bg-white p-8 print:w-full print:max-w-full print:p-4 print:text-xs">
       <PrintWatermark text={`${patient.lastName}, ${patient.firstName} — ${todayStr}`} />
 
       <div className="mb-6 flex justify-end print:hidden">

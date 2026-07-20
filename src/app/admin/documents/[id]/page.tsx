@@ -28,7 +28,7 @@ export default async function DocumentDetailPage({
   const age = calcAge(patient.birthday, doc.issuedAt);
 
   return (
-    <div className="mx-auto max-w-2xl bg-white p-10 print:max-w-full print:w-full print:p-0 print:text-sm">
+    <div className="mx-auto max-w-2xl bg-white p-10 print:max-w-full print:w-full print:p-4 print:text-sm">
       <PrintWatermark text={`${patient.lastName}, ${patient.firstName} — ${dateStr}`} />
 
       <div className="mb-6 flex justify-end print:hidden">
