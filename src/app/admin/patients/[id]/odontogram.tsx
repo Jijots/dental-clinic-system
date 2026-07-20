@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useTransition } from "react";
+import { X } from "lucide-react";
 import { setToothCondition, clearToothCondition } from "@/lib/actions/odontogram";
 import { TOOTH_CONDITIONS } from "@/lib/tooth-conditions";
 
@@ -19,44 +20,105 @@ const RING_SURFACES: { key: Surface; label: string; start: number; end: number }
   { key: "MESIAL", label: "M", start: 225, end: 315 },
 ];
 
-const RING_CENTER = 18;
-const RING_OUTER = 16;
-const RING_INNER = 7;
-
 function colorFor(condition?: string) {
   return TOOTH_CONDITIONS.find((c) => c.code === condition)?.color;
 }
 
-/** SVG path for one annular "slice" of the tooth ring (a quadrant with a hole in the middle). */
-function sectorPath(startDeg: number, endDeg: number) {
+/** SVG path for one annular "slice" of a ring (a quadrant with a hole in the middle). */
+function sectorPath(
+  center: number,
+  outer: number,
+  inner: number,
+  startDeg: number,
+  endDeg: number
+) {
   const toRad = (d: number) => (d * Math.PI) / 180;
   const point = (r: number, deg: number): [number, number] => [
-    RING_CENTER + r * Math.sin(toRad(deg)),
-    RING_CENTER - r * Math.cos(toRad(deg)),
+    center + r * Math.sin(toRad(deg)),
+    center - r * Math.cos(toRad(deg)),
   ];
-  const [x1, y1] = point(RING_OUTER, startDeg);
-  const [x2, y2] = point(RING_OUTER, endDeg);
-  const [x3, y3] = point(RING_INNER, endDeg);
-  const [x4, y4] = point(RING_INNER, startDeg);
-  return `M ${x1} ${y1} A ${RING_OUTER} ${RING_OUTER} 0 0 1 ${x2} ${y2} L ${x3} ${y3} A ${RING_INNER} ${RING_INNER} 0 0 0 ${x4} ${y4} Z`;
+  const [x1, y1] = point(outer, startDeg);
+  const [x2, y2] = point(outer, endDeg);
+  const [x3, y3] = point(inner, endDeg);
+  const [x4, y4] = point(inner, startDeg);
+  return `M ${x1} ${y1} A ${outer} ${outer} 0 0 1 ${x2} ${y2} L ${x3} ${y3} A ${inner} ${inner} 0 0 0 ${x4} ${y4} Z`;
 }
 
-function Tooth({
+/** The tooth ring itself: 4 arc segments (Buccal/Distal/Lingual/Mesial) + an Occlusal center circle. */
+function ToothRing({
+  size,
+  bySurface,
+  onSegmentClick,
+  activeSurface,
+}: {
+  size: number;
+  bySurface: (s: Surface) => Entry | undefined;
+  onSegmentClick?: (s: Surface) => void;
+  activeSurface?: Surface | null;
+}) {
+  const center = size / 2;
+  const outer = size * 0.44;
+  const inner = size * 0.2;
+  const stroke = size < 60 ? 1 : 2;
+  const occlusal = bySurface("OCCLUSAL");
+
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox={`0 0 ${size} ${size}`}
+      className={onSegmentClick ? "overflow-visible" : "pointer-events-none overflow-visible"}
+    >
+      {RING_SURFACES.map((s) => {
+        const entry = bySurface(s.key);
+        const color = colorFor(entry?.condition);
+        return (
+          <path
+            key={s.key}
+            d={sectorPath(center, outer, inner, s.start, s.end)}
+            fill={color ?? "#ffffff"}
+            stroke={activeSurface === s.key ? "#5b3fb8" : "#94a3b8"}
+            strokeWidth={activeSurface === s.key ? stroke * 2 : stroke}
+            className={onSegmentClick ? "cursor-pointer hover:opacity-70" : undefined}
+            onClick={onSegmentClick ? () => onSegmentClick(s.key) : undefined}
+          >
+            <title>{`${s.label}: ${entry?.condition ?? "unmarked"}`}</title>
+          </path>
+        );
+      })}
+      <circle
+        cx={center}
+        cy={center}
+        r={inner}
+        fill={colorFor(occlusal?.condition) ?? "#ffffff"}
+        stroke={activeSurface === "OCCLUSAL" ? "#5b3fb8" : "#94a3b8"}
+        strokeWidth={activeSurface === "OCCLUSAL" ? stroke * 2 : stroke}
+        className={onSegmentClick ? "cursor-pointer hover:opacity-70" : undefined}
+        onClick={onSegmentClick ? () => onSegmentClick("OCCLUSAL") : undefined}
+      >
+        <title>{`O: ${occlusal?.condition ?? "unmarked"}`}</title>
+      </circle>
+    </svg>
+  );
+}
+
+function ZoomModal({
   patientId,
   toothNumber,
   entries,
+  onClose,
 }: {
   patientId: string;
   toothNumber: number;
   entries: Entry[];
+  onClose: () => void;
 }) {
-  const [open, setOpen] = useState<Surface | null>(null);
+  const [activeSurface, setActiveSurface] = useState<Surface | null>(null);
   const [, startTransition] = useTransition();
 
   const bySurface = (s: Surface) => entries.find((e) => e.toothNumber === toothNumber && e.surface === s);
 
   function pick(surface: Surface, code: string | null) {
-    setOpen(null);
     startTransition(async () => {
       if (code === null) {
         await clearToothCondition(patientId, toothNumber, surface);
@@ -66,99 +128,95 @@ function Tooth({
     });
   }
 
-  const occlusal = bySurface("OCCLUSAL");
-  const occlusalColor = colorFor(occlusal?.condition);
-
   return (
-    <div className="relative flex flex-col items-center">
-      <span className="text-[10px] text-gray-500">{toothNumber}</span>
-      <svg
-        width="36"
-        height="36"
-        viewBox="0 0 36 36"
-        className="cursor-pointer overflow-visible"
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4"
+      onClick={onClose}
+    >
+      <div
+        className="w-full max-w-md rounded-xl bg-white p-6 shadow-2xl"
+        onClick={(e) => e.stopPropagation()}
       >
-        {RING_SURFACES.map((s) => {
-          const entry = bySurface(s.key);
-          const color = colorFor(entry?.condition);
-          return (
-            <path
-              key={s.key}
-              d={sectorPath(s.start, s.end)}
-              fill={color ?? "#ffffff"}
-              stroke="#94a3b8"
-              strokeWidth={1}
-              className="hover:opacity-70"
-              onClick={() => setOpen(open === s.key ? null : s.key)}
-            >
-              <title>{`${s.label}: ${entry?.condition ?? "unmarked"}`}</title>
-            </path>
-          );
-        })}
-        <circle
-          cx={RING_CENTER}
-          cy={RING_CENTER}
-          r={RING_INNER}
-          fill={occlusalColor ?? "#ffffff"}
-          stroke="#94a3b8"
-          strokeWidth={1}
-          className="cursor-pointer hover:opacity-70"
-          onClick={() => setOpen(open === "OCCLUSAL" ? null : "OCCLUSAL")}
-        >
-          <title>{`O: ${occlusal?.condition ?? "unmarked"}`}</title>
-        </circle>
-      </svg>
+        <div className="flex items-center justify-between">
+          <p className="text-lg font-semibold text-gray-900">Tooth {toothNumber}</p>
+          <button type="button" onClick={onClose} className="text-gray-400 hover:text-gray-600">
+            <X size={20} />
+          </button>
+        </div>
 
-      {open && (
-        <div className="absolute top-full z-10 mt-1 w-48 rounded-md border bg-white p-2 shadow-lg">
-          <p className="mb-1 text-[10px] font-medium text-gray-500">
-            Tooth {toothNumber} — {open}
-          </p>
-          <div className="max-h-48 overflow-y-auto">
-            {TOOTH_CONDITIONS.map((c) => (
-              <button
-                key={c.code}
-                type="button"
-                onClick={() => pick(open, c.code)}
-                className="flex w-full items-center gap-2 rounded px-2 py-1 text-left text-xs hover:bg-gray-100"
-              >
-                <span className="h-3 w-3 rounded-full" style={{ backgroundColor: c.color }} />
-                {c.label}
-              </button>
-            ))}
+        <div className="mt-4 flex justify-center">
+          <ToothRing
+            size={200}
+            bySurface={bySurface}
+            onSegmentClick={(s) => setActiveSurface(activeSurface === s ? null : s)}
+            activeSurface={activeSurface}
+          />
+        </div>
+        <p className="mt-2 text-center text-xs text-gray-500">
+          Click a surface above to assign its condition.
+        </p>
+
+        {activeSurface && (
+          <div className="mt-4 rounded-lg border bg-gray-50 p-3">
+            <p className="mb-2 text-xs font-medium text-gray-500">
+              {activeSurface} — pick a condition
+            </p>
+            <div className="grid max-h-56 grid-cols-2 gap-1 overflow-y-auto">
+              {TOOTH_CONDITIONS.map((c) => (
+                <button
+                  key={c.code}
+                  type="button"
+                  onClick={() => pick(activeSurface, c.code)}
+                  className="flex items-center gap-2 rounded px-2 py-1.5 text-left text-xs hover:bg-white"
+                >
+                  <span className="h-3 w-3 shrink-0 rounded-full" style={{ backgroundColor: c.color }} />
+                  {c.label}
+                </button>
+              ))}
+            </div>
             <button
               type="button"
-              onClick={() => pick(open, null)}
-              className="mt-1 w-full rounded px-2 py-1 text-left text-xs text-gray-400 hover:bg-gray-100"
+              onClick={() => pick(activeSurface, null)}
+              className="mt-2 w-full rounded px-2 py-1.5 text-left text-xs text-gray-400 hover:bg-white"
             >
-              Clear
+              Clear this surface
             </button>
           </div>
-        </div>
-      )}
+        )}
+      </div>
     </div>
   );
 }
 
-function ToothRow({
-  patientId,
-  numbers,
-  entries,
-}: {
-  patientId: string;
-  numbers: number[];
-  entries: Entry[];
-}) {
+function Tooth({ toothNumber, entries, onZoom }: { toothNumber: number; entries: Entry[]; onZoom: () => void }) {
+  const bySurface = (s: Surface) => entries.find((e) => e.toothNumber === toothNumber && e.surface === s);
+
+  return (
+    <button
+      type="button"
+      onClick={onZoom}
+      className="flex flex-col items-center gap-0.5 rounded p-0.5 hover:bg-gray-100"
+      title={`Tooth ${toothNumber} — click to zoom in and assign conditions`}
+    >
+      <span className="text-[10px] text-gray-500">{toothNumber}</span>
+      <ToothRing size={36} bySurface={bySurface} />
+    </button>
+  );
+}
+
+function ToothRow({ numbers, entries, onZoom }: { numbers: number[]; entries: Entry[]; onZoom: (n: number) => void }) {
   return (
     <div className="flex flex-wrap gap-3">
       {numbers.map((n) => (
-        <Tooth key={n} patientId={patientId} toothNumber={n} entries={entries} />
+        <Tooth key={n} toothNumber={n} entries={entries} onZoom={() => onZoom(n)} />
       ))}
     </div>
   );
 }
 
 export function Odontogram({ patientId, entries }: { patientId: string; entries: Entry[] }) {
+  const [zoomedTooth, setZoomedTooth] = useState<number | null>(null);
+
   return (
     <div className="mt-3 space-y-6 rounded-lg border bg-white p-6">
       <div className="flex flex-wrap gap-3 border-b pb-4 text-[11px] text-gray-600">
@@ -172,17 +230,26 @@ export function Odontogram({ patientId, entries }: { patientId: string; entries:
 
       <div>
         <p className="mb-2 text-xs font-semibold text-gray-500">PERMANENT TEETH</p>
-        <ToothRow patientId={patientId} numbers={PERMANENT_UPPER} entries={entries} />
+        <ToothRow numbers={PERMANENT_UPPER} entries={entries} onZoom={setZoomedTooth} />
         <div className="my-3 border-t" />
-        <ToothRow patientId={patientId} numbers={PERMANENT_LOWER} entries={entries} />
+        <ToothRow numbers={PERMANENT_LOWER} entries={entries} onZoom={setZoomedTooth} />
       </div>
 
       <div>
         <p className="mb-2 text-xs font-semibold text-gray-500">TEMPORARY (PRIMARY) TEETH</p>
-        <ToothRow patientId={patientId} numbers={PRIMARY_UPPER} entries={entries} />
+        <ToothRow numbers={PRIMARY_UPPER} entries={entries} onZoom={setZoomedTooth} />
         <div className="my-3 border-t" />
-        <ToothRow patientId={patientId} numbers={PRIMARY_LOWER} entries={entries} />
+        <ToothRow numbers={PRIMARY_LOWER} entries={entries} onZoom={setZoomedTooth} />
       </div>
+
+      {zoomedTooth !== null && (
+        <ZoomModal
+          patientId={patientId}
+          toothNumber={zoomedTooth}
+          entries={entries}
+          onClose={() => setZoomedTooth(null)}
+        />
+      )}
     </div>
   );
 }
