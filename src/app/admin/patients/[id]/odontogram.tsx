@@ -12,16 +12,33 @@ const PERMANENT_LOWER = [48, 47, 46, 45, 44, 43, 42, 41, 31, 32, 33, 34, 35, 36,
 const PRIMARY_UPPER = [55, 54, 53, 52, 51, 61, 62, 63, 64, 65];
 const PRIMARY_LOWER = [85, 84, 83, 82, 81, 71, 72, 73, 74, 75];
 
-const SURFACES: { key: Surface; label: string; className: string }[] = [
-  { key: "BUCCAL", label: "B", className: "col-start-2 row-start-1" },
-  { key: "MESIAL", label: "M", className: "col-start-1 row-start-2" },
-  { key: "OCCLUSAL", label: "O", className: "col-start-2 row-start-2" },
-  { key: "DISTAL", label: "D", className: "col-start-3 row-start-2" },
-  { key: "LINGUAL", label: "L", className: "col-start-2 row-start-3" },
+const RING_SURFACES: { key: Surface; label: string; start: number; end: number }[] = [
+  { key: "BUCCAL", label: "B", start: -45, end: 45 },
+  { key: "DISTAL", label: "D", start: 45, end: 135 },
+  { key: "LINGUAL", label: "L", start: 135, end: 225 },
+  { key: "MESIAL", label: "M", start: 225, end: 315 },
 ];
+
+const RING_CENTER = 18;
+const RING_OUTER = 16;
+const RING_INNER = 7;
 
 function colorFor(condition?: string) {
   return TOOTH_CONDITIONS.find((c) => c.code === condition)?.color;
+}
+
+/** SVG path for one annular "slice" of the tooth ring (a quadrant with a hole in the middle). */
+function sectorPath(startDeg: number, endDeg: number) {
+  const toRad = (d: number) => (d * Math.PI) / 180;
+  const point = (r: number, deg: number): [number, number] => [
+    RING_CENTER + r * Math.sin(toRad(deg)),
+    RING_CENTER - r * Math.cos(toRad(deg)),
+  ];
+  const [x1, y1] = point(RING_OUTER, startDeg);
+  const [x2, y2] = point(RING_OUTER, endDeg);
+  const [x3, y3] = point(RING_INNER, endDeg);
+  const [x4, y4] = point(RING_INNER, startDeg);
+  return `M ${x1} ${y1} A ${RING_OUTER} ${RING_OUTER} 0 0 1 ${x2} ${y2} L ${x3} ${y3} A ${RING_INNER} ${RING_INNER} 0 0 0 ${x4} ${y4} Z`;
 }
 
 function Tooth({
@@ -49,25 +66,48 @@ function Tooth({
     });
   }
 
+  const occlusal = bySurface("OCCLUSAL");
+  const occlusalColor = colorFor(occlusal?.condition);
+
   return (
     <div className="relative flex flex-col items-center">
       <span className="text-[10px] text-gray-500">{toothNumber}</span>
-      <div className="grid h-9 w-9 grid-cols-3 grid-rows-3 gap-px rounded border bg-gray-200">
-        {SURFACES.map((s) => {
+      <svg
+        width="36"
+        height="36"
+        viewBox="0 0 36 36"
+        className="cursor-pointer overflow-visible"
+      >
+        {RING_SURFACES.map((s) => {
           const entry = bySurface(s.key);
           const color = colorFor(entry?.condition);
           return (
-            <button
+            <path
               key={s.key}
-              type="button"
-              title={`${s.label}: ${entry?.condition ?? "unmarked"}`}
+              d={sectorPath(s.start, s.end)}
+              fill={color ?? "#ffffff"}
+              stroke="#94a3b8"
+              strokeWidth={1}
+              className="hover:opacity-70"
               onClick={() => setOpen(open === s.key ? null : s.key)}
-              className={`${s.className} text-[7px] leading-none`}
-              style={{ backgroundColor: color ?? "#ffffff" }}
-            />
+            >
+              <title>{`${s.label}: ${entry?.condition ?? "unmarked"}`}</title>
+            </path>
           );
         })}
-      </div>
+        <circle
+          cx={RING_CENTER}
+          cy={RING_CENTER}
+          r={RING_INNER}
+          fill={occlusalColor ?? "#ffffff"}
+          stroke="#94a3b8"
+          strokeWidth={1}
+          className="cursor-pointer hover:opacity-70"
+          onClick={() => setOpen(open === "OCCLUSAL" ? null : "OCCLUSAL")}
+        >
+          <title>{`O: ${occlusal?.condition ?? "unmarked"}`}</title>
+        </circle>
+      </svg>
 
       {open && (
         <div className="absolute top-full z-10 mt-1 w-48 rounded-md border bg-white p-2 shadow-lg">
