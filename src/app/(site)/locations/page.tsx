@@ -24,11 +24,11 @@ const BRANCHES = [
 export default function LocationsPage() {
   return (
     <div className="mx-auto max-w-4xl px-6 py-16">
-      <h1 className="text-3xl font-bold text-gray-900">Our Locations</h1>
+      <h1 className="text-3xl font-bold font-serif text-brand-900">Our Locations</h1>
       <div className="mt-8 grid gap-6 md:grid-cols-2">
         {BRANCHES.map((branch) => (
           <div key={branch.name} className="rounded-lg border p-6">
-            <h2 className="font-semibold text-gray-900">{branch.name}</h2>
+            <h2 className="font-semibold font-serif text-brand-900">{branch.name}</h2>
             <p className="mt-2 text-sm text-gray-600">{branch.address}</p>
             <p className="mt-1 text-sm text-gray-600">📞 {branch.phone}</p>
           </div>

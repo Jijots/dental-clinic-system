@@ -10,7 +10,7 @@ export default async function BookPage() {
 
   return (
     <div className="mx-auto max-w-xl px-6 py-16">
-      <h1 className="text-3xl font-bold text-gray-900">Book an Appointment</h1>
+      <h1 className="text-3xl font-bold font-serif text-brand-900">Book an Appointment</h1>
       <p className="mt-2 text-gray-600">
         Pick a branch, dentist, and preferred time. We&apos;ll confirm your slot shortly.
       </p>

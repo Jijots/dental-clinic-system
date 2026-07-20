@@ -10,14 +10,14 @@ const NAV_LINKS = [
 export default function SiteLayout({ children }: { children: React.ReactNode }) {
   return (
     <div className="flex min-h-screen flex-col">
-      <header className="border-b">
+      <header className="bg-black">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
-          <Link href="/" className="text-lg font-semibold text-brand-700">
+          <Link href="/" className="font-serif text-lg font-semibold text-white">
             Psalm 23 Dental Care
           </Link>
-          <nav className="flex items-center gap-6 text-sm font-medium">
+          <nav className="flex items-center gap-6 text-sm font-medium text-white/80">
             {NAV_LINKS.map((link) => (
-              <Link key={link.href} href={link.href} className="hover:text-brand-700">
+              <Link key={link.href} href={link.href} className="hover:text-white">
                 {link.label}
               </Link>
             ))}
@@ -27,7 +27,7 @@ export default function SiteLayout({ children }: { children: React.ReactNode }) 
             >
               Book Appointment
             </Link>
-            <Link href="/login" className="hover:text-brand-700">
+            <Link href="/login" className="hover:text-white">
               Login
             </Link>
           </nav>
