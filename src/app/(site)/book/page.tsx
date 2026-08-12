@@ -1,6 +1,8 @@
 import { prisma } from "@/lib/prisma";
 import { BookingForm } from "./booking-form";
 
+export const revalidate = 0;
+
 export default async function BookPage() {
   const [branches, dentists, services] = await Promise.all([
     prisma.branch.findMany({ orderBy: { name: "asc" } }),

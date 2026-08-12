@@ -1,5 +1,7 @@
 import { prisma } from "@/lib/prisma";
 
+export const revalidate = 0;
+
 export default async function LocationsPage() {
   const branches = await prisma.branch.findMany({ orderBy: { name: "asc" } });
 

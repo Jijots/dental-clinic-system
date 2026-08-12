@@ -18,6 +18,8 @@ import {
 } from "lucide-react";
 import { prisma } from "@/lib/prisma";
 
+export const revalidate = 0;
+
 const FEATURES = [
   {
     icon: Heart,
