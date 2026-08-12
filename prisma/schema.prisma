@@ -208,6 +208,7 @@ model TreatmentRecord {
   updatedAt DateTime @updatedAt
 
   payments Payment[]
+  gatewayTransactions PaymentGatewayTransaction[]
 
   @@index([patientId, date])
 }
@@ -232,6 +233,50 @@ model Payment {
   paidAt      DateTime    @default(now())
 
   createdAt DateTime @default(now())
+
+  gatewayTransaction PaymentGatewayTransaction?
+}
+
+// ---------------------------------------------------------------------------
+// Online payment gateways (PayMongo default, Maya as an alternative)
+// ---------------------------------------------------------------------------
+
+enum PaymentGatewayProvider {
+  PAYMONGO
+  MAYA
+}
+
+enum PaymentGatewayStatus {
+  PENDING
+  PAID
+  FAILED
+  EXPIRED
+  CANCELLED
+}
+
+// Tracks a hosted-checkout attempt (PayMongo Payment Link / Maya Checkout).
+// A Payment row is only created once the provider confirms the money actually
+// landed (via webhook), so an abandoned checkout never counts as paid.
+model PaymentGatewayTransaction {
+  id String @id @default(cuid())
+
+  treatmentRecord   TreatmentRecord @relation(fields: [treatmentRecordId], references: [id], onDelete: Cascade)
+  treatmentRecordId String
+
+  provider    PaymentGatewayProvider
+  status      PaymentGatewayStatus   @default(PENDING)
+  amount      Decimal                @db.Decimal(10, 2)
+  externalId  String // PayMongo Link id / Maya checkoutId
+  checkoutUrl String                 @db.Text
+
+  payment   Payment? @relation(fields: [paymentId], references: [id])
+  paymentId String?  @unique
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([treatmentRecordId])
+  @@index([externalId])
 }
 
 // ---------------------------------------------------------------------------
