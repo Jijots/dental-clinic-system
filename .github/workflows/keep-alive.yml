@@ -1,0 +1,27 @@
+# Supabase pauses free-tier projects after a stretch of inactivity, which would
+# leave the live demo dead exactly when a prospect finally clicks the link.
+# The public pages render dynamically and read from Postgres, so simply
+# requesting them counts as database activity.
+#
+# --fail means a broken demo shows up as a failed run in your inbox, so this
+# doubles as a cheap uptime check.
+
+name: keep-alive
+
+on:
+  schedule:
+    # 06:00 UTC every third day.
+    - cron: "0 6 */3 * *"
+  workflow_dispatch:
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping the demo (home + locations)
+        run: |
+          URL="${{ vars.DEMO_URL || 'https://dental-clinic-system-tau.vercel.app' }}"
+          echo "Pinging $URL"
+          curl --fail --silent --show-error --location "$URL" -o /dev/null
+          curl --fail --silent --show-error --location "$URL/locations" -o /dev/null
+          echo "Demo is up."

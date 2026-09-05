@@ -40,13 +40,25 @@ export async function createAppointmentRequest(
     return { status: "error", message: "Please fill in all required fields." };
   }
 
+  // The date input's `min` only guards the browser; requests can still arrive
+  // with a past date, so the cutoff is enforced here too.
+  const requestedDate = new Date(date);
+  if (Number.isNaN(requestedDate.getTime())) {
+    return { status: "error", message: "Please choose a valid date." };
+  }
+  const today = new Date();
+  today.setUTCHours(0, 0, 0, 0);
+  if (requestedDate < today) {
+    return { status: "error", message: "Please choose a date that hasn't passed yet." };
+  }
+
   try {
     await prisma.appointment.create({
       data: {
         branchId,
         dentistId,
         serviceId,
-        date: new Date(date),
+        date: requestedDate,
         time,
         requesterName,
         requesterPhone,

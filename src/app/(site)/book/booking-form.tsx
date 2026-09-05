@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState, useTransition, useActionState } from "react";
+import { useEffect, useMemo, useState, useTransition, useActionState } from "react";
 import { createAppointmentRequest, getTakenSlots, type BookingState } from "@/lib/actions/appointments";
 
 type Branch = { id: string; name: string };
@@ -26,8 +26,17 @@ export function BookingForm({
   const [dentistId, setDentistId] = useState("");
   const [date, setDate] = useState("");
   const [takenSlots, setTakenSlots] = useState<string[]>([]);
+  // Resolved after mount so the server and client don't disagree about "today"
+  // across timezones during hydration.
+  const [minDate, setMinDate] = useState("");
   const [, startTransition] = useTransition();
   const [state, formAction, pending] = useActionState(createAppointmentRequest, initialState);
+
+  useEffect(() => {
+    const now = new Date();
+    const local = new Date(now.getTime() - now.getTimezoneOffset() * 60000);
+    setMinDate(local.toISOString().slice(0, 10));
+  }, []);
 
   const dentistsForBranch = useMemo(
     () => dentists.filter((d) => !branchId || d.branchId === branchId),
@@ -108,6 +117,7 @@ export function BookingForm({
           type="date"
           name="date"
           required
+          min={minDate || undefined}
           value={date}
           onChange={(e) => {
             setDate(e.target.value);

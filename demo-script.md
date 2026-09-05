@@ -2,7 +2,18 @@
 
 Target length: ~3–4 minutes. Screen-record at 1280x800 or larger. Narrate live or record voiceover after — either works with this script.
 
-Login for the demo: `admin@brightsidedental.example` / `brightsideadmin`
+Login for the demo: `admin@brightsidedental.example`. The password is whatever
+`DEMO_ADMIN_PASSWORD` is set to in the demo environment — it is deliberately not
+committed to this repo.
+
+**Before each call**, reset the demo to a clean state:
+
+```bash
+ALLOW_DEMO_RESET=true npm run db:reset
+```
+
+That wipes and reseeds, so treatment history lands in the recent past and the
+pending appointment request is always 3 days out — the demo never looks stale.
 
 ---
 
@@ -22,7 +33,7 @@ Login for the demo: `admin@brightsidedental.example` / `brightsideadmin`
 **Say:**
 > "Patients book directly from the website. Watch this — as soon as I pick a dentist and date, it shows real-time availability."
 
-**Action:** Point out that already-booked slots are grayed out / unselectable. (Try Main Branch + Dr. Ana Reyes on 2026-07-28 at 10:00 — that slot is already taken by the seeded appointment, so it'll show disabled.)
+**Action:** Point out that already-booked slots are grayed out / unselectable. (Try Main Branch + Dr. Ana Reyes on the date **3 days from today** at 10:00 — that slot is already taken by the seeded appointment, so it'll show disabled. The reset above always places it 3 days out.)
 
 **Say:**
 > "That's not just a visual trick — it's enforced at the database level. Two people literally cannot double-book the same slot, even if they submit at the exact same second."
