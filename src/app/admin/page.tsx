@@ -37,12 +37,12 @@ export default async function AdminDashboardPage() {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold text-gray-900">Dashboard</h1>
+      <h1 className="text-2xl font-bold text-ink">Dashboard</h1>
       <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {cards.map((card) => (
-          <div key={card.label} className="rounded-lg border bg-white p-5 shadow-sm">
-            <p className="text-xs font-medium uppercase text-gray-500">{card.label}</p>
-            <p className="mt-2 text-2xl font-semibold text-gray-900">{card.value}</p>
+          <div key={card.label} className="rounded-lg border bg-surface p-5 shadow-sm">
+            <p className="text-xs font-medium uppercase text-ink-subtle">{card.label}</p>
+            <p className="mt-2 text-2xl font-semibold text-ink">{card.value}</p>
           </div>
         ))}
       </div>

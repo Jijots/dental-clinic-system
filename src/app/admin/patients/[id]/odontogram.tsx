@@ -130,16 +130,16 @@ function ZoomModal({
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-surface-inverse/50 p-4"
       onClick={onClose}
     >
       <div
-        className="w-full max-w-md rounded-xl bg-white p-6 shadow-2xl"
+        className="w-full max-w-md rounded-xl bg-surface p-6 shadow-2xl"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex items-center justify-between">
-          <p className="text-lg font-semibold text-gray-900">Tooth {toothNumber}</p>
-          <button type="button" onClick={onClose} className="text-gray-400 hover:text-gray-600">
+          <p className="text-lg font-semibold text-ink">Tooth {toothNumber}</p>
+          <button type="button" onClick={onClose} className="text-ink-faint hover:text-ink-soft">
             <X size={20} />
           </button>
         </div>
@@ -152,13 +152,13 @@ function ZoomModal({
             activeSurface={activeSurface}
           />
         </div>
-        <p className="mt-2 text-center text-xs text-gray-500">
+        <p className="mt-2 text-center text-xs text-ink-subtle">
           Click a surface above to assign its condition.
         </p>
 
         {activeSurface && (
-          <div className="mt-4 rounded-lg border bg-gray-50 p-3">
-            <p className="mb-2 text-xs font-medium text-gray-500">
+          <div className="mt-4 rounded-lg border bg-surface-muted p-3">
+            <p className="mb-2 text-xs font-medium text-ink-subtle">
               {activeSurface} — pick a condition
             </p>
             <div className="grid max-h-56 grid-cols-2 gap-1 overflow-y-auto">
@@ -167,7 +167,7 @@ function ZoomModal({
                   key={c.code}
                   type="button"
                   onClick={() => pick(activeSurface, c.code)}
-                  className="flex items-center gap-2 rounded px-2 py-1.5 text-left text-xs hover:bg-white"
+                  className="flex items-center gap-2 rounded px-2 py-1.5 text-left text-xs hover:bg-surface"
                 >
                   <span className="h-3 w-3 shrink-0 rounded-full" style={{ backgroundColor: c.color }} />
                   {c.label}
@@ -177,7 +177,7 @@ function ZoomModal({
             <button
               type="button"
               onClick={() => pick(activeSurface, null)}
-              className="mt-2 w-full rounded px-2 py-1.5 text-left text-xs text-gray-400 hover:bg-white"
+              className="mt-2 w-full rounded px-2 py-1.5 text-left text-xs text-ink-faint hover:bg-surface"
             >
               Clear this surface
             </button>
@@ -195,10 +195,10 @@ function Tooth({ toothNumber, entries, onZoom }: { toothNumber: number; entries:
     <button
       type="button"
       onClick={onZoom}
-      className="flex flex-col items-center gap-0.5 rounded p-0.5 hover:bg-gray-100"
+      className="flex flex-col items-center gap-0.5 rounded p-0.5 hover:bg-surface-sunken"
       title={`Tooth ${toothNumber} — click to zoom in and assign conditions`}
     >
-      <span className="text-[10px] text-gray-500">{toothNumber}</span>
+      <span className="text-[10px] text-ink-subtle">{toothNumber}</span>
       <ToothRing size={36} bySurface={bySurface} />
     </button>
   );
@@ -218,8 +218,8 @@ export function Odontogram({ patientId, entries }: { patientId: string; entries:
   const [zoomedTooth, setZoomedTooth] = useState<number | null>(null);
 
   return (
-    <div className="mt-3 space-y-6 rounded-lg border bg-white p-6">
-      <div className="flex flex-wrap gap-3 border-b pb-4 text-[11px] text-gray-600">
+    <div className="mt-3 space-y-6 rounded-lg border bg-surface p-6">
+      <div className="flex flex-wrap gap-3 border-b pb-4 text-[11px] text-ink-soft">
         {TOOTH_CONDITIONS.map((c) => (
           <span key={c.code} className="flex items-center gap-1">
             <span className="h-2.5 w-2.5 rounded-full" style={{ backgroundColor: c.color }} />
@@ -229,14 +229,14 @@ export function Odontogram({ patientId, entries }: { patientId: string; entries:
       </div>
 
       <div>
-        <p className="mb-2 text-xs font-semibold text-gray-500">PERMANENT TEETH</p>
+        <p className="mb-2 text-xs font-semibold text-ink-subtle">PERMANENT TEETH</p>
         <ToothRow numbers={PERMANENT_UPPER} entries={entries} onZoom={setZoomedTooth} />
         <div className="my-3 border-t" />
         <ToothRow numbers={PERMANENT_LOWER} entries={entries} onZoom={setZoomedTooth} />
       </div>
 
       <div>
-        <p className="mb-2 text-xs font-semibold text-gray-500">TEMPORARY (PRIMARY) TEETH</p>
+        <p className="mb-2 text-xs font-semibold text-ink-subtle">TEMPORARY (PRIMARY) TEETH</p>
         <ToothRow numbers={PRIMARY_UPPER} entries={entries} onZoom={setZoomedTooth} />
         <div className="my-3 border-t" />
         <ToothRow numbers={PRIMARY_LOWER} entries={entries} onZoom={setZoomedTooth} />

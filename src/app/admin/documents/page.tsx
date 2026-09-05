@@ -15,10 +15,10 @@ export default async function DocumentsPage() {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold text-gray-900">Documents</h1>
-      <p className="text-sm text-gray-500">Generate medical certificates and prescriptions.</p>
+      <h1 className="text-2xl font-bold text-ink">Documents</h1>
+      <p className="text-sm text-ink-subtle">Generate medical certificates and prescriptions.</p>
 
-      <form action={generateDocument} className="mt-6 space-y-3 rounded-lg border bg-white p-5">
+      <form action={generateDocument} className="mt-6 space-y-3 rounded-lg border bg-surface p-5">
         <div className="grid gap-3 sm:grid-cols-3">
           <select name="patientId" required className="rounded-md border px-3 py-2 text-sm">
             <option value="">Patient</option>
@@ -57,9 +57,9 @@ export default async function DocumentsPage() {
         </button>
       </form>
 
-      <div className="mt-6 overflow-hidden rounded-lg border bg-white">
+      <div className="mt-6 overflow-hidden rounded-lg border bg-surface">
         <table className="w-full text-left text-sm">
-          <thead className="bg-gray-50 text-xs uppercase text-gray-500">
+          <thead className="bg-surface-muted text-xs uppercase text-ink-subtle">
             <tr>
               <th className="px-4 py-3">Date</th>
               <th className="px-4 py-3">Patient</th>
@@ -86,7 +86,7 @@ export default async function DocumentsPage() {
             ))}
             {documents.length === 0 && (
               <tr>
-                <td colSpan={5} className="px-4 py-8 text-center text-gray-400">
+                <td colSpan={5} className="px-4 py-8 text-center text-ink-faint">
                   No documents generated yet.
                 </td>
               </tr>

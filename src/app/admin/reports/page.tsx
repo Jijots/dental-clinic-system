@@ -29,15 +29,15 @@ export default async function ReportsPage() {
 
   return (
     <div className="space-y-10">
-      <h1 className="text-2xl font-bold text-gray-900">Reports</h1>
+      <h1 className="text-2xl font-bold text-ink">Reports</h1>
 
       <section>
-        <h2 className="text-lg font-semibold text-gray-900">
+        <h2 className="text-lg font-semibold text-ink">
           Patient Recall Report — No visit in the last 5 months
         </h2>
-        <div className="mt-3 overflow-hidden rounded-lg border bg-white">
+        <div className="mt-3 overflow-hidden rounded-lg border bg-surface">
           <table className="w-full text-left text-sm">
-            <thead className="bg-gray-50 text-xs uppercase text-gray-500">
+            <thead className="bg-surface-muted text-xs uppercase text-ink-subtle">
               <tr>
                 <th className="px-4 py-3">Patient</th>
                 <th className="px-4 py-3">Last Treatment</th>
@@ -56,7 +56,7 @@ export default async function ReportsPage() {
               ))}
               {recallList.length === 0 && (
                 <tr>
-                  <td colSpan={2} className="px-4 py-8 text-center text-gray-400">
+                  <td colSpan={2} className="px-4 py-8 text-center text-ink-faint">
                     No patients due for recall.
                   </td>
                 </tr>
@@ -67,10 +67,10 @@ export default async function ReportsPage() {
       </section>
 
       <section>
-        <h2 className="text-lg font-semibold text-gray-900">Dentist Payroll / Commission Report</h2>
-        <div className="mt-3 overflow-hidden rounded-lg border bg-white">
+        <h2 className="text-lg font-semibold text-ink">Dentist Payroll / Commission Report</h2>
+        <div className="mt-3 overflow-hidden rounded-lg border bg-surface">
           <table className="w-full text-left text-sm">
-            <thead className="bg-gray-50 text-xs uppercase text-gray-500">
+            <thead className="bg-surface-muted text-xs uppercase text-ink-subtle">
               <tr>
                 <th className="px-4 py-3">Dentist</th>
                 <th className="px-4 py-3">Commission Rate</th>

@@ -54,7 +54,7 @@ export function AdminSidebar({
           type="button"
           onClick={() => setExpanded((v) => !v)}
           title={expanded ? "Collapse sidebar" : "Expand sidebar"}
-          className="rounded-md p-1.5 text-white/60 hover:bg-white/10 hover:text-white"
+          className="rounded-md p-1.5 text-white/60 hover:bg-surface/10 hover:text-white"
         >
           {expanded ? <ChevronLeft size={18} /> : <ChevronRight size={18} />}
         </button>
@@ -71,7 +71,7 @@ export function AdminSidebar({
               href={item.href}
               title={item.label}
               className={`flex items-center gap-3 rounded-md px-3 py-2 transition-colors ${
-                active ? "bg-cream text-brand-900" : "text-white/80 hover:bg-white/10 hover:text-white"
+                active ? "bg-cream text-brand-900" : "text-white/80 hover:bg-surface/10 hover:text-white"
               } ${expanded ? "" : "justify-center"}`}
             >
               <Icon size={18} className="shrink-0" />
@@ -87,7 +87,7 @@ export function AdminSidebar({
           <button
             type="submit"
             title="Log out"
-            className={`flex w-full items-center gap-3 rounded-md px-3 py-2 text-white/70 hover:bg-white/10 hover:text-white ${
+            className={`flex w-full items-center gap-3 rounded-md px-3 py-2 text-white/70 hover:bg-surface/10 hover:text-white ${
               expanded ? "" : "justify-center"
             }`}
           >

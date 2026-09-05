@@ -20,6 +20,29 @@
   --color-brand-900: #271a4d; /* deep violet-black used for headings/body text */
   --color-cream: #f6f4fc; /* section background used behind e.g. the locations list */
   --color-tan: #e9e4f7; /* card/strip background used behind feature and service cards */
+
+  /* ---------------------------------------------------------------------
+   * Neutrals. These exist so a clinic's identity is swappable from THIS
+   * file alone. Reach for a semantic token below rather than a raw
+   * Tailwind gray, or the value stops responding to a rebrand.
+   * ------------------------------------------------------------------- */
+
+  /* Surfaces — backgrounds, from the page up to raised elements. */
+  --color-surface: #ffffff; /* cards, panels, the default page ground */
+  --color-surface-muted: #f9fafb; /* table headers, subtle section bands */
+  --color-surface-sunken: #f3f4f6; /* disabled and inset areas */
+  --color-surface-inverse: #000000; /* the public site header */
+
+  /* Lines — borders and dividers. */
+  --color-line: #e5e7eb; /* hairlines between rows and sections */
+  --color-line-strong: #d1d5db; /* form control borders */
+
+  /* Ink — text, from primary reading weight down to faint. */
+  --color-ink: #111827; /* headings and primary body text */
+  --color-ink-muted: #374151; /* labels and secondary text */
+  --color-ink-soft: #4b5563; /* supporting copy */
+  --color-ink-subtle: #6b7280; /* captions, metadata, table sub-values */
+  --color-ink-faint: #9ca3af; /* placeholders and disabled text */
 }
 
 body {

@@ -140,18 +140,18 @@ export function HelpButton() {
   return (
     <div className="fixed bottom-6 right-6 z-50 print:hidden">
       {open && (
-        <div className="absolute bottom-16 right-0 w-72 rounded-lg border bg-white p-4 shadow-xl">
+        <div className="absolute bottom-16 right-0 w-72 rounded-lg border bg-surface p-4 shadow-xl">
           <div className="mb-2 flex items-center justify-between gap-2">
             <p className="font-semibold text-brand-900">{topic.title}</p>
             <button
               type="button"
               onClick={() => setOpen(false)}
-              className="shrink-0 text-gray-400 hover:text-gray-600"
+              className="shrink-0 text-ink-faint hover:text-ink-soft"
             >
               <X size={16} />
             </button>
           </div>
-          <ul className="space-y-2 text-sm text-gray-600">
+          <ul className="space-y-2 text-sm text-ink-soft">
             {topic.steps.map((s, i) => (
               <li key={i} className="flex gap-2">
                 <span className="text-brand-700">•</span>

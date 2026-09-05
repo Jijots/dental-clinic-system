@@ -11,7 +11,7 @@ const NAV_LINKS = [
 export default function SiteLayout({ children }: { children: React.ReactNode }) {
   return (
     <div className="flex min-h-screen flex-col">
-      <header className="bg-black">
+      <header className="bg-surface-inverse">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
           <Link href="/" className="font-serif text-lg font-semibold text-white">
             {CLINIC_NAME}
@@ -35,7 +35,7 @@ export default function SiteLayout({ children }: { children: React.ReactNode }) 
         </div>
       </header>
       <main className="flex-1">{children}</main>
-      <footer className="border-t py-8 text-center text-sm text-gray-500">
+      <footer className="border-t py-8 text-center text-sm text-ink-subtle">
         © {new Date().getFullYear()} {CLINIC_NAME}. All rights reserved.
       </footer>
     </div>

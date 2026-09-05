@@ -2,6 +2,8 @@
 
 import { useEffect, useMemo, useState, useTransition, useActionState } from "react";
 import { createAppointmentRequest, getTakenSlots, type BookingState } from "@/lib/actions/appointments";
+import { Field, Input, Select } from "@/components/field";
+import { Button } from "@/components/button";
 
 type Branch = { id: string; name: string };
 type Dentist = { id: string; name: string; branchId: string | null };
@@ -56,9 +58,8 @@ export function BookingForm({
 
   return (
     <form action={formAction} className="mt-8 space-y-4">
-      <div>
-        <label className="block text-sm font-medium text-gray-700">Branch</label>
-        <select
+      <Field label="Branch" required>
+        <Select
           name="branchId"
           required
           value={branchId}
@@ -67,7 +68,6 @@ export function BookingForm({
             setDentistId("");
             setTakenSlots([]);
           }}
-          className="mt-1 w-full rounded-md border px-3 py-2"
         >
           <option value="">Select branch</option>
           {branches.map((b) => (
@@ -75,12 +75,11 @@ export function BookingForm({
               {b.name}
             </option>
           ))}
-        </select>
-      </div>
+        </Select>
+      </Field>
 
-      <div>
-        <label className="block text-sm font-medium text-gray-700">Dentist</label>
-        <select
+      <Field label="Dentist" required>
+        <Select
           name="dentistId"
           required
           value={dentistId}
@@ -88,7 +87,6 @@ export function BookingForm({
             setDentistId(e.target.value);
             refreshTakenSlots(e.target.value, date);
           }}
-          className="mt-1 w-full rounded-md border px-3 py-2"
         >
           <option value="">Select dentist</option>
           {dentistsForBranch.map((d) => (
@@ -96,24 +94,22 @@ export function BookingForm({
               {d.name}
             </option>
           ))}
-        </select>
-      </div>
+        </Select>
+      </Field>
 
-      <div>
-        <label className="block text-sm font-medium text-gray-700">Service</label>
-        <select name="serviceId" className="mt-1 w-full rounded-md border px-3 py-2">
+      <Field label="Service">
+        <Select name="serviceId">
           <option value="">Select service</option>
           {services.map((s) => (
             <option key={s.id} value={s.id}>
               {s.name}
             </option>
           ))}
-        </select>
-      </div>
+        </Select>
+      </Field>
 
-      <div>
-        <label className="block text-sm font-medium text-gray-700">Date</label>
-        <input
+      <Field label="Date" required>
+        <Input
           type="date"
           name="date"
           required
@@ -123,21 +119,25 @@ export function BookingForm({
             setDate(e.target.value);
             refreshTakenSlots(dentistId, e.target.value);
           }}
-          className="mt-1 w-full rounded-md border px-3 py-2"
         />
-      </div>
+      </Field>
 
-      <div>
-        <label className="block text-sm font-medium text-gray-700">Time</label>
+      <fieldset>
+        <legend className="block text-sm font-medium text-ink-muted">
+          Time
+          <span className="ml-0.5 text-red-600" aria-hidden="true">
+            *
+          </span>
+        </legend>
         <div className="mt-1 grid grid-cols-4 gap-2">
           {TIME_SLOTS.map((slot) => {
             const isTaken = takenSlots.includes(slot);
             return (
               <label
                 key={slot}
-                className={`cursor-pointer rounded-md border px-2 py-2 text-center text-sm ${
+                className={`cursor-pointer rounded-md border border-line-strong px-2 py-2 text-center text-sm ${
                   isTaken
-                    ? "cursor-not-allowed bg-gray-100 text-gray-400 line-through"
+                    ? "cursor-not-allowed bg-surface-sunken text-ink-faint line-through"
                     : "hover:border-brand-600"
                 }`}
               >
@@ -154,45 +154,28 @@ export function BookingForm({
             );
           })}
         </div>
-      </div>
+      </fieldset>
 
       <div className="grid gap-4 sm:grid-cols-2">
-        <div>
-          <label className="block text-sm font-medium text-gray-700">Full Name</label>
-          <input
-            name="requesterName"
-            required
-            className="mt-1 w-full rounded-md border px-3 py-2"
-          />
-        </div>
-        <div>
-          <label className="block text-sm font-medium text-gray-700">Contact Number</label>
-          <input
-            name="requesterPhone"
-            required
-            className="mt-1 w-full rounded-md border px-3 py-2"
-          />
-        </div>
-      </div>
-      <div>
-        <label className="block text-sm font-medium text-gray-700">Email (optional)</label>
-        <input
-          type="email"
-          name="requesterEmail"
-          className="mt-1 w-full rounded-md border px-3 py-2"
-        />
+        <Field label="Full Name" required>
+          <Input name="requesterName" required />
+        </Field>
+        <Field label="Contact Number" required>
+          <Input name="requesterPhone" required />
+        </Field>
       </div>
 
-      <button
-        type="submit"
-        disabled={pending}
-        className="w-full rounded-md bg-brand-700 px-4 py-3 font-medium text-white hover:bg-brand-800 disabled:opacity-60"
-      >
+      <Field label="Email (optional)">
+        <Input type="email" name="requesterEmail" />
+      </Field>
+
+      <Button type="submit" disabled={pending} className="w-full py-3">
         {pending ? "Sending..." : "Request Appointment"}
-      </button>
+      </Button>
 
       {state.status !== "idle" && (
         <p
+          role={state.status === "error" ? "alert" : undefined}
           className={`text-sm ${
             state.status === "success" ? "text-brand-700" : "text-red-600"
           }`}

@@ -12,7 +12,7 @@ export default function ServicesPage() {
         {SERVICES.map((service) => (
           <div key={service.name} className="rounded-lg border p-6">
             <h2 className="font-semibold font-serif text-brand-900">{service.name}</h2>
-            <p className="mt-2 text-sm text-gray-600">{service.description}</p>
+            <p className="mt-2 text-sm text-ink-soft">{service.description}</p>
           </div>
         ))}
       </div>

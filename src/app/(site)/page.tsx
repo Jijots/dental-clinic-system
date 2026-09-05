@@ -137,13 +137,13 @@ export default async function HomePage() {
               Contact Us
             </Link>
           </div>
-          <div className="mt-10 inline-flex items-center gap-3 rounded-lg bg-white px-5 py-4 shadow-lg">
+          <div className="mt-10 inline-flex items-center gap-3 rounded-lg bg-surface px-5 py-4 shadow-lg">
             <Building2 className="text-brand-700" size={22} />
             <div>
               <p className="font-bold text-brand-900">
                 {branches.length} {branches.length === 1 ? "Branch" : "Branches"}
               </p>
-              <p className="text-xs uppercase tracking-wide text-gray-500">Near You</p>
+              <p className="text-xs uppercase tracking-wide text-ink-subtle">Near You</p>
             </div>
           </div>
         </div>
@@ -187,14 +187,14 @@ export default async function HomePage() {
       </section>
 
       {/* Services */}
-      <section className="bg-white px-6 py-20">
+      <section className="bg-surface px-6 py-20">
         <div className="mx-auto max-w-5xl">
           <div className="grid gap-8 sm:grid-cols-3">
             {SERVICES.map((s) => (
               <div key={s.title} className="rounded-lg bg-tan p-6">
                 <IconBadge icon={s.icon} />
                 <h3 className="mt-4 font-serif text-lg font-medium text-brand-900">{s.title}</h3>
-                <p className="mt-2 text-sm text-gray-600">{s.body}</p>
+                <p className="mt-2 text-sm text-ink-soft">{s.body}</p>
                 <Link
                   href="/services"
                   className="mt-4 inline-flex items-center gap-1 text-xs font-bold uppercase tracking-wide text-brand-700 hover:underline"
@@ -231,7 +231,7 @@ export default async function HomePage() {
 
       {/* Meet the Team */}
       {dentists.length > 0 && (
-        <section className="bg-white px-6 py-20">
+        <section className="bg-surface px-6 py-20">
           <div className="mx-auto max-w-5xl">
             <h2 className="text-center font-serif text-3xl font-medium text-brand-900">
               Meet Our Dentists
@@ -286,7 +286,7 @@ export default async function HomePage() {
       )}
 
       {/* Locations */}
-      <section className="bg-white px-6 py-20">
+      <section className="bg-surface px-6 py-20">
         <div className="mx-auto max-w-6xl">
           <h2 className="text-center font-serif text-3xl font-medium text-brand-900">
             Our Locations
@@ -298,9 +298,9 @@ export default async function HomePage() {
                   <MapPin size={18} className="mt-1 shrink-0 text-brand-700" />
                   {b.name}
                 </h3>
-                <p className="mt-2 text-sm text-gray-600">{b.address}</p>
+                <p className="mt-2 text-sm text-ink-soft">{b.address}</p>
                 {b.phone && (
-                  <p className="mt-2 flex items-center gap-2 text-sm text-gray-600">
+                  <p className="mt-2 flex items-center gap-2 text-sm text-ink-soft">
                     <Phone size={14} className="shrink-0 text-brand-700" />
                     {b.phone}
                   </p>
@@ -316,7 +316,7 @@ export default async function HomePage() {
               </div>
             ))}
             {branches.length === 0 && (
-              <p className="text-center text-gray-400">No branches configured yet.</p>
+              <p className="text-center text-ink-faint">No branches configured yet.</p>
             )}
           </div>
         </div>
@@ -338,7 +338,7 @@ export default async function HomePage() {
           </div>
           <Link
             href="/book"
-            className="inline-flex shrink-0 items-center gap-2 rounded bg-cream px-7 py-3 text-sm font-semibold uppercase tracking-wide text-brand-900 hover:bg-white"
+            className="inline-flex shrink-0 items-center gap-2 rounded bg-cream px-7 py-3 text-sm font-semibold uppercase tracking-wide text-brand-900 hover:bg-surface"
           >
             <Calendar size={16} /> Book an Appointment
           </Link>

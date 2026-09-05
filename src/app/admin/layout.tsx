@@ -15,7 +15,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
   return (
     <div className="flex min-h-screen">
       <AdminSidebar userEmail={session.user.email ?? ""} signOutAction={signOutAction} />
-      <main className="flex-1 bg-slate-50 p-8 print:bg-white print:p-0">{children}</main>
+      <main className="flex-1 bg-slate-50 p-8 print:bg-surface print:p-0">{children}</main>
       <HelpButton />
     </div>
   );

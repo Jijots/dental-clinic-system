@@ -5,7 +5,7 @@ const STATUS_STYLE: Record<string, string> = {
   PENDING: "bg-amber-100 text-amber-800",
   CONFIRMED: "bg-blue-100 text-blue-800",
   COMPLETED: "bg-brand-100 text-brand-800",
-  CANCELLED: "bg-gray-200 text-gray-600",
+  CANCELLED: "bg-surface-sunken text-ink-soft",
 };
 
 export default async function AppointmentsPage({
@@ -31,12 +31,12 @@ export default async function AppointmentsPage({
 
   return (
     <div>
-      <h1 className="text-2xl font-bold text-gray-900">Client Appointments</h1>
-      <p className="text-sm text-gray-500">Across all branches, filterable by branch and dentist.</p>
+      <h1 className="text-2xl font-bold text-ink">Client Appointments</h1>
+      <p className="text-sm text-ink-subtle">Across all branches, filterable by branch and dentist.</p>
 
       <form className="mt-4 flex flex-wrap items-end gap-3">
         <div>
-          <label className="block text-xs text-gray-500">Branch</label>
+          <label className="block text-xs text-ink-subtle">Branch</label>
           <select
             name="branchId"
             defaultValue={branchId ?? ""}
@@ -51,7 +51,7 @@ export default async function AppointmentsPage({
           </select>
         </div>
         <div>
-          <label className="block text-xs text-gray-500">Dentist</label>
+          <label className="block text-xs text-ink-subtle">Dentist</label>
           <select
             name="dentistId"
             defaultValue={dentistId ?? ""}
@@ -72,15 +72,15 @@ export default async function AppointmentsPage({
           Filter
         </button>
         {(branchId || dentistId) && (
-          <a href="/admin/appointments" className="text-sm text-gray-500 hover:underline">
+          <a href="/admin/appointments" className="text-sm text-ink-subtle hover:underline">
             Clear filters
           </a>
         )}
       </form>
 
-      <div className="mt-6 overflow-x-auto rounded-lg border bg-white">
+      <div className="mt-6 overflow-x-auto rounded-lg border bg-surface">
         <table className="w-full min-w-[1000px] text-left text-sm">
-          <thead className="bg-gray-50 text-xs uppercase text-gray-500">
+          <thead className="bg-surface-muted text-xs uppercase text-ink-subtle">
             <tr>
               <th className="px-4 py-3">Date</th>
               <th className="px-4 py-3">Time</th>
@@ -155,7 +155,7 @@ export default async function AppointmentsPage({
             ))}
             {appointments.length === 0 && (
               <tr>
-                <td colSpan={8} className="px-4 py-8 text-center text-gray-400">
+                <td colSpan={8} className="px-4 py-8 text-center text-ink-faint">
                   No appointments yet.
                 </td>
               </tr>

@@ -42,7 +42,7 @@ export default async function PatientDetailPage({
     <div className="space-y-8">
       <div>
         <div className="flex items-center gap-3">
-          <h1 className="text-2xl font-bold text-gray-900">
+          <h1 className="text-2xl font-bold text-ink">
             {patient.lastName}, {patient.firstName}
           </h1>
           <Link
@@ -52,7 +52,7 @@ export default async function PatientDetailPage({
             Edit
           </Link>
         </div>
-        <p className="text-sm text-gray-500">
+        <p className="text-sm text-ink-subtle">
           {patient.branch.name} · {patient.contactNumber ?? "No contact number"}
         </p>
         {(patient.allergies || patient.medicalConditions) && (
@@ -64,23 +64,23 @@ export default async function PatientDetailPage({
       </div>
 
       <div className="grid gap-4 sm:grid-cols-3">
-        <div className="rounded-lg border bg-white p-5">
-          <p className="text-xs font-medium uppercase text-gray-500">Total Fee</p>
-          <p className="mt-1 text-xl font-semibold text-gray-900">₱{totalFee.toLocaleString()}</p>
+        <div className="rounded-lg border bg-surface p-5">
+          <p className="text-xs font-medium uppercase text-ink-subtle">Total Fee</p>
+          <p className="mt-1 text-xl font-semibold text-ink">₱{totalFee.toLocaleString()}</p>
         </div>
-        <div className="rounded-lg border bg-white p-5">
-          <p className="text-xs font-medium uppercase text-gray-500">Total Payment</p>
+        <div className="rounded-lg border bg-surface p-5">
+          <p className="text-xs font-medium uppercase text-ink-subtle">Total Payment</p>
           <p className="mt-1 text-xl font-semibold text-brand-700">₱{totalPaid.toLocaleString()}</p>
         </div>
-        <div className="rounded-lg border bg-white p-5">
-          <p className="text-xs font-medium uppercase text-gray-500">Remaining Balance</p>
+        <div className="rounded-lg border bg-surface p-5">
+          <p className="text-xs font-medium uppercase text-ink-subtle">Remaining Balance</p>
           <p className="mt-1 text-xl font-semibold text-red-600">₱{remainingBalance.toLocaleString()}</p>
         </div>
       </div>
 
       <section>
         <div className="flex items-center justify-between">
-          <h2 className="text-lg font-semibold text-gray-900">Treatment History / E-SOA</h2>
+          <h2 className="text-lg font-semibold text-ink">Treatment History / E-SOA</h2>
           <Link
             href={`/admin/patients/${patient.id}/soa`}
             className="rounded-md border border-brand-700 px-3 py-1.5 text-sm font-medium text-brand-700 hover:bg-brand-50"
@@ -96,9 +96,9 @@ export default async function PatientDetailPage({
           hmoProviders={hmoProviders.map((h) => ({ id: h.id, name: h.name }))}
         />
 
-        <div className="mt-3 overflow-x-auto rounded-lg border bg-white">
+        <div className="mt-3 overflow-x-auto rounded-lg border bg-surface">
           <table className="w-full min-w-[900px] text-left text-sm">
-            <thead className="bg-gray-50 text-xs uppercase text-gray-500">
+            <thead className="bg-surface-muted text-xs uppercase text-ink-subtle">
               <tr>
                 <th className="px-4 py-3">Date</th>
                 <th className="px-4 py-3">Dentist</th>
@@ -133,7 +133,7 @@ export default async function PatientDetailPage({
               ))}
               {patient.treatmentRecords.length === 0 && (
                 <tr>
-                  <td colSpan={8} className="px-4 py-8 text-center text-gray-400">
+                  <td colSpan={8} className="px-4 py-8 text-center text-ink-faint">
                     No treatment records yet.
                   </td>
                 </tr>
@@ -144,8 +144,8 @@ export default async function PatientDetailPage({
       </section>
 
       <section>
-        <h2 className="text-lg font-semibold text-gray-900">Odontogram</h2>
-        <p className="text-sm text-gray-500">
+        <h2 className="text-lg font-semibold text-ink">Odontogram</h2>
+        <p className="text-sm text-ink-subtle">
           Click a tooth to record its condition using the clinic&apos;s legend.
         </p>
         <Odontogram patientId={patient.id} entries={patient.odontogramEntries} />

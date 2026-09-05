@@ -19,7 +19,7 @@ export function AddTreatmentForm({
   return (
     <form
       action={addTreatmentRecord}
-      className="mt-3 space-y-3 rounded-lg border bg-white p-4"
+      className="mt-3 space-y-3 rounded-lg border bg-surface p-4"
     >
       <input type="hidden" name="patientId" value={patientId} />
       <input type="hidden" name="branchId" value={branchId} />
@@ -62,7 +62,7 @@ export function AddTreatmentForm({
       </div>
 
       <div className="flex items-center gap-3">
-        <label className="flex items-center gap-2 text-sm text-gray-700">
+        <label className="flex items-center gap-2 text-sm text-ink-muted">
           <input
             type="checkbox"
             name="hmoCovered"

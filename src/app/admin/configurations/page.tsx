@@ -11,11 +11,11 @@ export default async function ConfigurationsPage() {
 
   return (
     <div className="space-y-10">
-      <h1 className="text-2xl font-bold text-gray-900">Configurations</h1>
+      <h1 className="text-2xl font-bold text-ink">Configurations</h1>
 
       <section>
-        <h2 className="text-lg font-semibold text-gray-900">Branches</h2>
-        <form action={addBranch} className="mt-3 grid gap-3 rounded-lg border bg-white p-4 sm:grid-cols-4">
+        <h2 className="text-lg font-semibold text-ink">Branches</h2>
+        <form action={addBranch} className="mt-3 grid gap-3 rounded-lg border bg-surface p-4 sm:grid-cols-4">
           <input name="name" placeholder="Branch name" required className="rounded-md border px-3 py-2 text-sm" />
           <input name="address" placeholder="Address" required className="rounded-md border px-3 py-2 text-sm sm:col-span-2" />
           <input name="phone" placeholder="Phone" className="rounded-md border px-3 py-2 text-sm" />
@@ -23,7 +23,7 @@ export default async function ConfigurationsPage() {
             Add Branch
           </button>
         </form>
-        <ul className="mt-3 divide-y rounded-lg border bg-white text-sm">
+        <ul className="mt-3 divide-y rounded-lg border bg-surface text-sm">
           {branches.map((b) => (
             <li key={b.id} className="px-4 py-2">
               <span className="font-medium">{b.name}</span> — {b.address}
@@ -33,8 +33,8 @@ export default async function ConfigurationsPage() {
       </section>
 
       <section>
-        <h2 className="text-lg font-semibold text-gray-900">Dentists</h2>
-        <form action={addDentist} className="mt-3 grid gap-3 rounded-lg border bg-white p-4 sm:grid-cols-4">
+        <h2 className="text-lg font-semibold text-ink">Dentists</h2>
+        <form action={addDentist} className="mt-3 grid gap-3 rounded-lg border bg-surface p-4 sm:grid-cols-4">
           <input name="name" placeholder="Dentist name" required className="rounded-md border px-3 py-2 text-sm" />
           <select name="branchId" className="rounded-md border px-3 py-2 text-sm">
             <option value="">Primary branch</option>
@@ -65,13 +65,13 @@ export default async function ConfigurationsPage() {
             Add Dentist
           </button>
         </form>
-        <ul className="mt-3 divide-y rounded-lg border bg-white text-sm">
+        <ul className="mt-3 divide-y rounded-lg border bg-surface text-sm">
           {dentists.map((d) => (
             <li key={d.id} className="px-4 py-2">
               <span className="font-medium">{d.name}</span> — {d.branch?.name ?? "No branch"} ·{" "}
               {Number(d.commissionRate)}% commission
               {(d.licenseNumber || d.ptrNumber) && (
-                <span className="text-gray-500">
+                <span className="text-ink-subtle">
                   {" "}
                   · PRC {d.licenseNumber ?? "-"} / PTR {d.ptrNumber ?? "-"}
                 </span>
@@ -82,8 +82,8 @@ export default async function ConfigurationsPage() {
       </section>
 
       <section>
-        <h2 className="text-lg font-semibold text-gray-900">Services</h2>
-        <form action={addService} className="mt-3 grid gap-3 rounded-lg border bg-white p-4 sm:grid-cols-4">
+        <h2 className="text-lg font-semibold text-ink">Services</h2>
+        <form action={addService} className="mt-3 grid gap-3 rounded-lg border bg-surface p-4 sm:grid-cols-4">
           <input name="name" placeholder="Service name" required className="rounded-md border px-3 py-2 text-sm" />
           <input name="category" placeholder="Category" className="rounded-md border px-3 py-2 text-sm" />
           <input
@@ -95,7 +95,7 @@ export default async function ConfigurationsPage() {
           />
           <button className="rounded-md bg-brand-700 px-4 py-2 text-sm text-white">Add Service</button>
         </form>
-        <ul className="mt-3 divide-y rounded-lg border bg-white text-sm">
+        <ul className="mt-3 divide-y rounded-lg border bg-surface text-sm">
           {services.map((s) => (
             <li key={s.id} className="px-4 py-2">
               <span className="font-medium">{s.name}</span> {s.category && `— ${s.category}`}
@@ -105,12 +105,12 @@ export default async function ConfigurationsPage() {
       </section>
 
       <section>
-        <h2 className="text-lg font-semibold text-gray-900">HMO Providers</h2>
-        <form action={addHmoProvider} className="mt-3 flex gap-3 rounded-lg border bg-white p-4">
+        <h2 className="text-lg font-semibold text-ink">HMO Providers</h2>
+        <form action={addHmoProvider} className="mt-3 flex gap-3 rounded-lg border bg-surface p-4">
           <input name="name" placeholder="HMO provider name" required className="flex-1 rounded-md border px-3 py-2 text-sm" />
           <button className="rounded-md bg-brand-700 px-4 py-2 text-sm text-white">Add</button>
         </form>
-        <ul className="mt-3 divide-y rounded-lg border bg-white text-sm">
+        <ul className="mt-3 divide-y rounded-lg border bg-surface text-sm">
           {hmoProviders.map((h) => (
             <li key={h.id} className="px-4 py-2">
               {h.name}

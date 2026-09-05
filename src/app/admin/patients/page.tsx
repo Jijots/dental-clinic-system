@@ -25,7 +25,7 @@ export default async function PatientsPage({
   return (
     <div>
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-gray-900">Patient&apos;s Profile</h1>
+        <h1 className="text-2xl font-bold text-ink">Patient&apos;s Profile</h1>
         <Link
           href="/admin/patients/new"
           className="rounded-md bg-brand-700 px-4 py-2 text-sm font-medium text-white hover:bg-brand-800"
@@ -44,9 +44,9 @@ export default async function PatientsPage({
         />
       </form>
 
-      <div className="mt-6 overflow-hidden rounded-lg border bg-white">
+      <div className="mt-6 overflow-hidden rounded-lg border bg-surface">
         <table className="w-full text-left text-sm">
-          <thead className="bg-gray-50 text-xs uppercase text-gray-500">
+          <thead className="bg-surface-muted text-xs uppercase text-ink-subtle">
             <tr>
               <th className="px-4 py-3">Name</th>
               <th className="px-4 py-3">Branch</th>
@@ -58,12 +58,12 @@ export default async function PatientsPage({
           <tbody className="divide-y">
             {patients.map((p) => (
               <tr key={p.id}>
-                <td className="px-4 py-3 font-medium text-gray-900">
+                <td className="px-4 py-3 font-medium text-ink">
                   {p.lastName}, {p.firstName}
                 </td>
-                <td className="px-4 py-3 text-gray-600">{p.branch.name}</td>
-                <td className="px-4 py-3 text-gray-600">{p.contactNumber ?? "-"}</td>
-                <td className="px-4 py-3 text-gray-600">{p.hmoProviderId ? "Yes" : "-"}</td>
+                <td className="px-4 py-3 text-ink-soft">{p.branch.name}</td>
+                <td className="px-4 py-3 text-ink-soft">{p.contactNumber ?? "-"}</td>
+                <td className="px-4 py-3 text-ink-soft">{p.hmoProviderId ? "Yes" : "-"}</td>
                 <td className="px-4 py-3 text-right">
                   <Link href={`/admin/patients/${p.id}`} className="text-brand-700 hover:underline">
                     View →
@@ -73,7 +73,7 @@ export default async function PatientsPage({
             ))}
             {patients.length === 0 && (
               <tr>
-                <td colSpan={5} className="px-4 py-8 text-center text-gray-400">
+                <td colSpan={5} className="px-4 py-8 text-center text-ink-faint">
                   No patients yet.
                 </td>
               </tr>

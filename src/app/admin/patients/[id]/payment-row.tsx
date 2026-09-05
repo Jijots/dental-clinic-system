@@ -42,7 +42,7 @@ export function PaymentRow({ patientId, treatment }: { patientId: string; treatm
         </td>
       </tr>
       {showForm && (
-        <tr className="bg-gray-50">
+        <tr className="bg-surface-muted">
           <td colSpan={8} className="px-4 py-3">
             <form
               action={async (formData) => {
@@ -54,7 +54,7 @@ export function PaymentRow({ patientId, treatment }: { patientId: string; treatm
               <input type="hidden" name="treatmentRecordId" value={treatment.id} />
               <input type="hidden" name="patientId" value={patientId} />
               <div>
-                <label className="block text-xs text-gray-500">Amount</label>
+                <label className="block text-xs text-ink-subtle">Amount</label>
                 <input
                   name="amount"
                   type="number"
@@ -65,7 +65,7 @@ export function PaymentRow({ patientId, treatment }: { patientId: string; treatm
                 />
               </div>
               <div>
-                <label className="block text-xs text-gray-500">Payment Type</label>
+                <label className="block text-xs text-ink-subtle">Payment Type</label>
                 <select name="paymentType" className="mt-1 rounded-md border px-2 py-1 text-sm">
                   <option value="CASH">Cash</option>
                   <option value="GCASH">GCash</option>

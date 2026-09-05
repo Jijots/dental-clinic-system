@@ -13,9 +13,9 @@ export default async function ExpensesPage() {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold text-gray-900">Expenses</h1>
+      <h1 className="text-2xl font-bold text-ink">Expenses</h1>
 
-      <form action={addExpense} className="mt-6 grid gap-3 rounded-lg border bg-white p-5 sm:grid-cols-5">
+      <form action={addExpense} className="mt-6 grid gap-3 rounded-lg border bg-surface p-5 sm:grid-cols-5">
         <select name="branchId" required className="rounded-md border px-3 py-2 text-sm sm:col-span-1">
           <option value="">Branch</option>
           {branches.map((b) => (
@@ -47,9 +47,9 @@ export default async function ExpensesPage() {
         </button>
       </form>
 
-      <div className="mt-6 overflow-hidden rounded-lg border bg-white">
+      <div className="mt-6 overflow-hidden rounded-lg border bg-surface">
         <table className="w-full text-left text-sm">
-          <thead className="bg-gray-50 text-xs uppercase text-gray-500">
+          <thead className="bg-surface-muted text-xs uppercase text-ink-subtle">
             <tr>
               <th className="px-4 py-3">Date</th>
               <th className="px-4 py-3">Branch</th>
@@ -68,7 +68,7 @@ export default async function ExpensesPage() {
             ))}
             {expenses.length === 0 && (
               <tr>
-                <td colSpan={4} className="px-4 py-8 text-center text-gray-400">
+                <td colSpan={4} className="px-4 py-8 text-center text-ink-faint">
                   No expenses logged yet.
                 </td>
               </tr>

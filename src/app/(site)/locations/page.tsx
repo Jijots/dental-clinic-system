@@ -12,12 +12,12 @@ export default async function LocationsPage() {
         {branches.map((branch) => (
           <div key={branch.id} className="rounded-lg border p-6">
             <h2 className="font-semibold font-serif text-brand-900">{branch.name}</h2>
-            <p className="mt-2 text-sm text-gray-600">{branch.address}</p>
-            {branch.phone && <p className="mt-1 text-sm text-gray-600">📞 {branch.phone}</p>}
+            <p className="mt-2 text-sm text-ink-soft">{branch.address}</p>
+            {branch.phone && <p className="mt-1 text-sm text-ink-soft">📞 {branch.phone}</p>}
           </div>
         ))}
         {branches.length === 0 && (
-          <p className="text-gray-400">No branches configured yet.</p>
+          <p className="text-ink-faint">No branches configured yet.</p>
         )}
       </div>
     </div>

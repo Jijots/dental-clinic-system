@@ -19,16 +19,16 @@ export default async function EditPatientPage({
 
   return (
     <div className="max-w-2xl">
-      <h1 className="text-2xl font-bold text-gray-900">
+      <h1 className="text-2xl font-bold text-ink">
         Edit Patient — {patient.lastName}, {patient.firstName}
       </h1>
 
-      <form action={updatePatient} className="mt-6 space-y-4 rounded-lg border bg-white p-6">
+      <form action={updatePatient} className="mt-6 space-y-4 rounded-lg border bg-surface p-6">
         <input type="hidden" name="patientId" value={patient.id} />
 
         <div className="grid gap-4 sm:grid-cols-3">
           <div>
-            <label className="block text-xs font-medium text-gray-700">Last Name</label>
+            <label className="block text-xs font-medium text-ink-muted">Last Name</label>
             <input
               name="lastName"
               required
@@ -37,7 +37,7 @@ export default async function EditPatientPage({
             />
           </div>
           <div>
-            <label className="block text-xs font-medium text-gray-700">First Name</label>
+            <label className="block text-xs font-medium text-ink-muted">First Name</label>
             <input
               name="firstName"
               required
@@ -46,7 +46,7 @@ export default async function EditPatientPage({
             />
           </div>
           <div>
-            <label className="block text-xs font-medium text-gray-700">Middle Name</label>
+            <label className="block text-xs font-medium text-ink-muted">Middle Name</label>
             <input
               name="middleName"
               defaultValue={patient.middleName ?? ""}
@@ -57,7 +57,7 @@ export default async function EditPatientPage({
 
         <div className="grid gap-4 sm:grid-cols-3">
           <div>
-            <label className="block text-xs font-medium text-gray-700">Gender</label>
+            <label className="block text-xs font-medium text-ink-muted">Gender</label>
             <select
               name="gender"
               defaultValue={patient.gender ?? ""}
@@ -69,7 +69,7 @@ export default async function EditPatientPage({
             </select>
           </div>
           <div>
-            <label className="block text-xs font-medium text-gray-700">Birthday</label>
+            <label className="block text-xs font-medium text-ink-muted">Birthday</label>
             <input
               type="date"
               name="birthday"
@@ -78,7 +78,7 @@ export default async function EditPatientPage({
             />
           </div>
           <div>
-            <label className="block text-xs font-medium text-gray-700">Branch</label>
+            <label className="block text-xs font-medium text-ink-muted">Branch</label>
             <select
               name="branchId"
               required
@@ -96,7 +96,7 @@ export default async function EditPatientPage({
         </div>
 
         <div>
-          <label className="block text-xs font-medium text-gray-700">Contact Number</label>
+          <label className="block text-xs font-medium text-ink-muted">Contact Number</label>
           <input
             name="contactNumber"
             defaultValue={patient.contactNumber ?? ""}
@@ -104,7 +104,7 @@ export default async function EditPatientPage({
           />
         </div>
         <div>
-          <label className="block text-xs font-medium text-gray-700">Home Address</label>
+          <label className="block text-xs font-medium text-ink-muted">Home Address</label>
           <input
             name="homeAddress"
             defaultValue={patient.homeAddress ?? ""}
@@ -113,7 +113,7 @@ export default async function EditPatientPage({
         </div>
 
         <div>
-          <label className="block text-xs font-medium text-gray-700">HMO Provider</label>
+          <label className="block text-xs font-medium text-ink-muted">HMO Provider</label>
           <select
             name="hmoProviderId"
             defaultValue={patient.hmoProviderId ?? ""}
@@ -129,7 +129,7 @@ export default async function EditPatientPage({
         </div>
 
         <div>
-          <label className="block text-xs font-medium text-gray-700">Allergies</label>
+          <label className="block text-xs font-medium text-ink-muted">Allergies</label>
           <input
             name="allergies"
             defaultValue={patient.allergies ?? ""}
@@ -137,7 +137,7 @@ export default async function EditPatientPage({
           />
         </div>
         <div>
-          <label className="block text-xs font-medium text-gray-700">Other Medical Conditions</label>
+          <label className="block text-xs font-medium text-ink-muted">Other Medical Conditions</label>
           <textarea
             name="medicalConditions"
             rows={3}
@@ -153,7 +153,7 @@ export default async function EditPatientPage({
           >
             Save Changes
           </button>
-          <a href={`/admin/patients/${patient.id}`} className="text-sm text-gray-500 hover:underline">
+          <a href={`/admin/patients/${patient.id}`} className="text-sm text-ink-subtle hover:underline">
             Cancel
           </a>
         </div>
